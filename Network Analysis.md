@@ -2,9 +2,9 @@
 
 ## 
 
-![](https://finnstats.com/wp-content/uploads/2021/04/graphopt.png)
+![Highlighting degrees & layouts](https://finnstats.com/wp-content/uploads/2021/04/graphopt.png)
 
-![](https://finnstats.com/wp-content/uploads/2021/04/Authority.png)
+![Hub and Authorities](https://finnstats.com/wp-content/uploads/2021/04/Authority.png)
 
 ![Community Detection](https://finnstats.com/wp-content/uploads/2021/04/Social-Network-Analysis-in-R.png)
 

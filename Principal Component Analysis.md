@@ -1,6 +1,10 @@
-# 
+# Principal Component Analysis in R
 
+## SCATTERPLOT AND CORRELATIONS
 ![Scatter Plot & Correlations](https://i.imgur.com/FfXqWX2.png)
+
+## BIPLOT
+![](https://i.imgur.com/w7gz1gC.png)
 
 # link interessanti
 

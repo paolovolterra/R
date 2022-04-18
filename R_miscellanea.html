@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paolo Volterra" />
+
+<meta name="date" content="2017-08-21" />
+
+<title>appunti su R</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ghibbli</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    realizzare un sito
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="sito.html">
+        <span class="fa fa-tasks"></span>
+         
+        istruzioni
+      </a>
+    </li>
+    <li>
+      <a href="Markdown_HowTO.html">Markdown How To</a>
+    </li>
+    <li>
+      <a href="Markdown_books_sites.html">Markdown libri e siti</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-tasks"></span>
+     
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_ETL.html">ETL</a>
+    </li>
+    <li>
+      <a href="R_BI_DataVisualization.html">Data Visualization</a>
+    </li>
+    <li>
+      <a href="R_diagrammi.html">Diagrammi</a>
+    </li>
+    <li>
+      <a href="R_mindmap.html">Mappe concettuali/mentali</a>
+    </li>
+    <li>
+      <a href="R_miscellanea.html">Miscellanea</a>
+    </li>
+    <li>
+      <a href="R_scraping.html">Scraping</a>
+    </li>
+    <li>
+      <a href="R_pdf.html">PDF</a>
+    </li>
+    <li>
+      <a href="R_tables.html">tabelle</a>
+    </li>
+    <li>
+      <a href="RGeo.html">Geografia</a>
+    </li>
+    <li>
+      <a href="R_MachineLearning.html">Machine Learning</a>
+    </li>
+    <li class="dropdown-header">Business Intelligence</li>
+    <li class="divider"></li>
+    <li>
+      <a href="R_BI_quantili.html">Quantili</a>
+    </li>
+    <li>
+      <a href="R_BI_cluster.html">Cluster Analysis</a>
+    </li>
+    <li>
+      <a href="R_BI_PCA.html">PCA</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Python.html">
+    <span class="fa fa-tasks"></span>
+     
+    Python
+  </a>
+</li>
+<li>
+  <a href="MySql.html">
+    <span class="fa fa-tasks"></span>
+     
+    Mysql
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-briefcase"></span>
+     
+    lavoro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lavoro_appunti.html">appunti</a>
+    </li>
+    <li class="dropdown-header">ANALISI</li>
+    <li class="divider"></li>
+    <li>
+      <a href="Superbonus.html">Superbonus</a>
+    </li>
+    <li>
+      <a href="PNRR.html">PNRR</a>
+    </li>
+    <li>
+      <a href="Sottocapitalizzazione.html">Sottocapitalizzazione</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    miscellanea
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="appunti.html">appunti</a>
+    </li>
+    <li>
+      <a href="links.html">pagine utili</a>
+    </li>
+    <li>
+      <a href="DAX_PowerQuery_PowerBI.html">DAX_PowerQuery_PowerBI</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">appunti su R</h1>
+<h4 class="author">Paolo Volterra</h4>
+<h4 class="date">2017-08-21</h4>
+
+</div>
+
+
+<table>
+<tbody>
+<tr class="odd">
+<td>R-miscellanea</td>
+</tr>
+</tbody>
+</table>
+<p>install.packages(“readxl”) library(“readxl”) # xls files my_data &lt;- read_excel(“tabella.xlsx”) my_data my_data[1:2] &lt;- apply(my_data[1:2]<em>100, 2, function(x) paste0(x, “%”)) sprintf(“%.1f %%”, 100</em>my_data) sprintf(“%s costed $ %3.2f”, stuff, price)</p>
+<div id="link-a-mysql-server" class="section level2">
+<h2>link a MYSQL SERVER</h2>
+<p>library(RMariaDB) #Connecting to MySQL DB stuffDB &lt;- dbConnect(MariaDB(), user = “pvolterr”, password = “***“, dbname =”aida”, host = “127.0.0.1”)</p>
+<p>query &lt;- “SELECT * from q_2020vs2019;”</p>
+<p>results &lt;- dbSendQuery(stuffDB, query) bilanci&lt;- dbFetch(results) dbClearResult(results)</p>
+<p>View(bilanci) str(bilanci)</p>
+<p>sum(complete.cases(bilanci)) sum(!complete.cases(bilanci))</p>
+<p>mean(bilanci<span class="math inline">\(`20ricavi`) mean(bilanci\)</span><code>20ricavi</code>, na.rm = TRUE) bilanci<span class="math inline">\(`20ricavi`[is.na(bilanci\)</span><code>20ricavi</code>)] &lt;- mean(bilanci$<code>20ricavi</code>, na.rm = TRUE)</p>
+</div>
+<div id="scraping-pagina-web-link" class="section level2">
+<h2>SCRAPING PAGINA WEB <a href="https://stackoverflow.com/questions/3195522/is-there-a-simple-way-in-r-to-extract-only-the-text-elements-of-an-html-page">link</a></h2>
+<p>library(htm2txt)</p>
+<p>url &lt;- ‘<a href="https://en.wikipedia.org/wiki/Alan_Turing" class="uri">https://en.wikipedia.org/wiki/Alan_Turing</a>’</p>
+<p>text &lt;- gettxt(url)</p>
+<p>print(text)</p>
+</div>
+<div id="visualizzare-limmagine-locale" class="section level2">
+<h2>VISUALIZZARE L’IMMAGINE LOCALE</h2>
+<p>x = read.csv(“my_file.csv”, stringsAsFactors=FALSE) <img src="file:///D:/DIR/APPUNTI/R/immagini/01.png" style="width:60.0%;height:60.0%" alt="image" /></p>
+</div>
+<div id="leggere-un-csv" class="section level2">
+<h2>04 LEGGERE UN CSV</h2>
+<p>while base data import functions (like read.csv and read.table) convert strings to factors by default, tidyverse functions (like read_csv from the readr package or read_excel from the readxl package) do not.</p>
+<p>With base R functions, to avoid conversion of strings to factors you would do, for example:</p>
+<p>x = read.csv(“my_file.csv”, stringsAsFactors=FALSE)</p>
+<p>In readr you can just read the file, as there is no stringsAsFactors argument and no automatic conversion of strings to factors:</p>
+<p>library(readr) x = read_csv(“my_file.csv”)</p>
+<p>However, if you wish you can also use the optional col_types argument to specify whether a particular column should be read in as a factor. See the col_types section of the help for read_csv for details.</p>
+</div>
+<div id="scrivere-un-csv" class="section level2">
+<h2>04 SCRIVERE UN CSV</h2>
+</div>
+<div id="database" class="section level2">
+<h2>45 - DATABASE</h2>
+</div>
+<div id="statistica-di-base" class="section level2">
+<h2>47 STATISTICA DI BASE</h2>
+</div>
+<div id="eda" class="section level2">
+<h2>48 EDA</h2>
+<div class="figure">
+<img src="D:/DIR/APPUNTI/R/immagini/03.PNG" style="width:50.0%;height:50.0%" alt="" />
+<p class="caption">image</p>
+</div>
+<ul>
+<li><p><em>names() o colnames()</em></p></li>
+<li><p>class()</p></li>
+<li><p>head() e tail()</p></li>
+<li><p>mean() median() quantile()</p></li>
+</ul>
+</div>
+<div id="data-quality" class="section level2">
+<h2><a href="https://www.udemy.com/course/introduzione-a-r/learn/lecture/19868268#content" width="60%" height="60%">49 DATA QUALITY</a></h2>
+<div id="missing-values" class="section level3">
+<h3>MISSING VALUES</h3>
+<div id="vedere-se-ci-sono-image" class="section level4">
+<h4>VEDERE SE CI SONO <img src="D:/DIR/APPUNTI/R/immagini/04.PNG" style="width:60.0%;height:60.0%" alt="image" /></h4>
+<p>dataset</p>
+<pre><code>data &lt;- data.frame(x1 = c(7, 2, 1, NA, 9), 
+x2 = c(1, 3, 1, 9, NA),
+x3 = c(NA, 8, 8, NA, 5))           
+               </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th>comando</th>
+<th>cosa fa</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>is.na(df)</td>
+<td>vedere se ci sono valori mancanti</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>complete.cases(data)</td>
+<td></td>
+<td># [1] FALSE TRUE TRUE FALSE FALSE</td>
+</tr>
+<tr class="odd">
+<td>table()complete.cases(df))</td>
+<td>quanti sono?</td>
+<td># [1] FALSE TRUE TRUE FALSE FALSE</td>
+</tr>
+<tr class="even">
+<td>sum(complete.cases(df))</td>
+<td>totale completi</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>sum(!complete.cases(df))</td>
+<td>totale incompleti</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>final[complete.cases(final), ]</p>
+<p>na.omit is nicer for just removing all NA’s. complete.cases allows partial selection by including only certain columns of the dataframe:</p>
+<p>final[complete.cases(final[ , 5:6]),]</p>
+<p>Your solution can’t work. If you insist on using is.na, then you have to do something like:</p>
+<p>final[rowSums(is.na(final[ , 5:6])) == 0, ]</p>
+<p>but using complete.cases is quite a lot more clear, and faster.</p>
+<div class="figure">
+<img src="file:///D:/DIR/APPUNTI/R/immagini/09.png" title="Image Description" style="width:50.0%;height:50.0%" alt="" />
+<p class="caption">image image</p>
+</div>
+<div class="figure">
+<img src="file:///D:/DIR/APPUNTI/R/immagini/10.png" title="Image Description" style="width:50.0%;height:50.0%" alt="" />
+<p class="caption">image image</p>
+</div>
+<p>con VIM si vedono graficamente (in rosso)</p>
+<blockquote>
+<p>library(VIM)</p>
+</blockquote>
+<blockquote>
+<p>matrixplot(df)</p>
+</blockquote>
+<div class="figure">
+<img src="file:///D:/DIR/APPUNTI/R/immagini/05.png" title="Image Description" style="width:50.0%;height:50.0%" alt="" />
+<p class="caption">image image</p>
+</div>
+</div>
+<div id="togliere-listwise-deletion" class="section level4">
+<h4>TOGLIERE <a href="https://statisticsglobe.com/listwise-deletion-missing-data/">listwise deletion</a></h4>
+<blockquote>
+<p>na.exclude(df)</p>
+</blockquote>
+<blockquote>
+<p>na.omit(df)</p>
+</blockquote>
+<blockquote>
+<p>df[complete.cases(df),]</p>
+</blockquote>
+<blockquote>
+<p>library(tidyr)</p>
+</blockquote>
+<blockquote>
+<p>drop_na(df)</p>
+</blockquote>
+</div>
+<div id="sostituire" class="section level4">
+<h4>SOSTITUIRE</h4>
+<ol style="list-style-type: decimal">
+<li>con media ° mean(df$var1)* o mediana della variabile dove mancano i valori</li>
+</ol>
+<blockquote>
+<p>col valore medio calcolato <img src="file:///D:/DIR/APPUNTI/R/immagini/06.png" title="Image Description" style="width:50.0%;height:50.0%" alt="image image" /></p>
+</blockquote>
+<blockquote>
+<p>col valore medio precalcolato <img src="file:///D:/DIR/APPUNTI/R/immagini/07.png" title="Image Description" style="width:50.0%;height:50.0%" alt="image image" /></p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li><p>data mining predittivo</p></li>
+<li><p>hot deck (per variabili qualitative)</p></li>
+</ol>
+</div>
+</div>
+<div id="outliers" class="section level3">
+<h3>OUTLIERS</h3>
+<div id="vederli-con-boxplot" class="section level4">
+<h4>vederli con boxplot</h4>
+<p>mtcars</p>
+<p>boxplot(mtcars)$out</p>
+<p>boxplot(mtcars<span class="math inline">\(hp)\)</span>out</p>
+<p>boxplot(mtcars<span class="math inline">\(hp, plot = FALSE)\)</span>out</p>
+</div>
+<div id="toglierli" class="section level4">
+<h4>toglierli</h4>
+<p>outliers &lt;- boxplot(mtcars<span class="math inline">\(hp, plot = FALSE)\)</span>out</p>
+<p>mtcars[-wich(mtcars$hp</p>
+<div class="figure">
+<img src="file:///D:/DIR/APPUNTI/R/immagini/08.png" title="Image Description" style="width:50.0%;height:50.0%" alt="" />
+<p class="caption">image image</p>
+</div>
+</div>
+<div id="sostituirli" class="section level4">
+<h4>sostituirli</h4>
+</div>
+</div>
+<div id="dati-duplicati" class="section level3">
+<h3>DATI DUPLICATI</h3>
+<p>duplicated(df)</p>
+<p>wich(duplicated(df))</p>
+<p>sum(duplicated(df))</p>
+</div>
+<div id="formati-errati" class="section level3">
+<h3>FORMATI ERRATI</h3>
+</div>
+<div id="inconsistenze" class="section level3">
+<h3>INCONSISTENZE</h3>
+</div>
+</div>
+<div id="visualizzare-i-dati" class="section level2">
+<h2>50 VISUALIZZARE I DATI</h2>
+</div>
+<div id="grafica-di-base" class="section level2">
+<h2><a href="https://www.udemy.com/course/introduzione-a-r/learn/lecture/5688706#content">51 GRAFICA DI BASE</a></h2>
+<p>Possiamo stampare tutti colori a disposizione come funziona kolors creare un oggetto con alcuni colori scelti da noi Apriamo un nuovo grafico dove al posto delle palette Dr mettiamo il nostro oggetto possiamo personalizzare il grafico mettendo un titolo utilizzando il parametro mail un sottotitolo utilizzando il parametro sub l’asse delle x 40 x Lab modificare ad esempio il grafico Crea un nuovo grafico dove invece delle frequenze assolute quindi il numero di persone per unicità mettiamo la percentuale che gli utilizziamo la funzione plot table se abbiamo tutto in un nuovo oggetto e poi riprendiamo il grafico tramite questo nuovo oggetto possiamo creare un grafico a torta semplicemente utilizzando la funzione fai è dentro la funzione mettendo l’oggetto in questo caso le percentuali in questo caso possiamo personalizzare maggiormente il grafico magari cambiando i colori utilizzando il parametro collo magari non titola nostro grafico anche questo vettore maniera casuale creare una seconda tabella con i generi</p>
+<p>E mi vado a creare un unico da prima che includa sia il genere sia le città Sentiamo adesso le due variabili della cassetta tramite era funzione Mosaic plot funziona mettendo una tilda e poi mettendo in relazione le due variabili che vogliamo. ridurre il grafico e poi come secondo parametro inserendo i dati ossia il Data Frame Il risultato è un grafico che finisce per la punto dove è più presente il genere maschile piuttosto che il genere femminile nelle varie città in questo caso per rendere più carino il risultato è l’italiano Questo pacchetto Air colorbrewer Contiene una serie di tavolozze di colori siamo trovarle facilmente cercando il nome del pacchetto su Google quindi te ne scegliamo una ad esempio spectral e andiamo a modificare il nostro bardotto ci prendiamo un oggetto con la tavolozza scelta entriamo il grafico tracolla mettendo la nostra tavolozza quindi possiamo mettere a grafico sia variabili singola sia a due variabili qualitative nello stesso momento se parliamo di grafici per variabili qualitative numeriche i tipi di grafici più comuni sono scatterplot e istogrammi possiamo utilizzare la funzione plot per creare un istogramma che prenda in considerazione tutte le variabili di un dataset variabile Float abbiamo diversi parametri il primo dei quali abbiamo visto ci permette di inserire l’asse delle x il secondo l’asse delle y Ma anche il titolo del nostro grafico</p>
+<p>Il sottotitolo Il nome dell’asse delle x Asse delle y Il colore del grafico Ecco il parametro pch il tipo di indicatore Come vedete al 6 corrispondono questi triangolini rovesciati</p>
+<p>Possiamo decidere il tipo di indicatore guardando questo specchietto che presenta le varie opzioni del parametro pch Possiamo anche Mostrare i valori delle variabili con colori differenti In questo primo caso creiamo due grafici che si sovrappongono in buona sostanza Quindi mettiamo la variabile S pallandt in blu e la variabile sapa luitz in rosso Oppure possiamo creare un vettore con i nomi dei colori associati alle 3 tipologie E poi Creiamo un grafico che mettendo in relazione due variabili ci mostri i tre colori appunto delle tipologie di fiore Altri tipi di grafico ad esempio quelli che seguono l’andamento nel tempo di un certo fenomeno Sono meglio rappresentati tramite delle linee in questo caso possiamo sempre utilizzare la funzione plot ma andremo a modificare un altro a parametro o sia il parametro Type In questa data set her Passenger Sono inclusi dei dati sul numero di passeggeri di aerei che hanno volato tra il 1949 e il 1960 e come vedete la rappresentazione è meglio data da una linea che segue nel tempo appunto all’andamento dei Passeggeri Qui possiamo andare a modificare Ad esempio la linea Secondo le nostre preferenze Sempre type-l che sta per line e poi andiamo a modificare il colore ad esempio della linea per questo utilizzeremo il parametro lvd</p>
+</div>
+<div id="r-commander" class="section level1">
+<h1>R Commander</h1>
+<p>install.packages(“Rcmdr”)</p>
+<p>library(Rcmdr)</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

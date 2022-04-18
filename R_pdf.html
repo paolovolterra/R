@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Elaborare PDF</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ghibbli</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    realizzare un sito
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="sito.html">
+        <span class="fa fa-tasks"></span>
+         
+        istruzioni
+      </a>
+    </li>
+    <li>
+      <a href="Markdown_HowTO.html">Markdown How To</a>
+    </li>
+    <li>
+      <a href="Markdown_books_sites.html">Markdown libri e siti</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-tasks"></span>
+     
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_ETL.html">ETL</a>
+    </li>
+    <li>
+      <a href="R_BI_DataVisualization.html">Data Visualization</a>
+    </li>
+    <li>
+      <a href="R_diagrammi.html">Diagrammi</a>
+    </li>
+    <li>
+      <a href="R_mindmap.html">Mappe concettuali/mentali</a>
+    </li>
+    <li>
+      <a href="R_miscellanea.html">Miscellanea</a>
+    </li>
+    <li>
+      <a href="R_scraping.html">Scraping</a>
+    </li>
+    <li>
+      <a href="R_pdf.html">PDF</a>
+    </li>
+    <li>
+      <a href="R_tables.html">tabelle</a>
+    </li>
+    <li>
+      <a href="RGeo.html">Geografia</a>
+    </li>
+    <li>
+      <a href="R_MachineLearning.html">Machine Learning</a>
+    </li>
+    <li class="dropdown-header">Business Intelligence</li>
+    <li class="divider"></li>
+    <li>
+      <a href="R_BI_quantili.html">Quantili</a>
+    </li>
+    <li>
+      <a href="R_BI_cluster.html">Cluster Analysis</a>
+    </li>
+    <li>
+      <a href="R_BI_PCA.html">PCA</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Python.html">
+    <span class="fa fa-tasks"></span>
+     
+    Python
+  </a>
+</li>
+<li>
+  <a href="MySql.html">
+    <span class="fa fa-tasks"></span>
+     
+    Mysql
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-briefcase"></span>
+     
+    lavoro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lavoro_appunti.html">appunti</a>
+    </li>
+    <li class="dropdown-header">ANALISI</li>
+    <li class="divider"></li>
+    <li>
+      <a href="Superbonus.html">Superbonus</a>
+    </li>
+    <li>
+      <a href="PNRR.html">PNRR</a>
+    </li>
+    <li>
+      <a href="Sottocapitalizzazione.html">Sottocapitalizzazione</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    miscellanea
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="appunti.html">appunti</a>
+    </li>
+    <li>
+      <a href="links.html">pagine utili</a>
+    </li>
+    <li>
+      <a href="DAX_PowerQuery_PowerBI.html">DAX_PowerQuery_PowerBI</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Elaborare PDF</h1>
+
+</div>
+
+
+<div id="tabulizer" class="section level1">
+<h1>Tabulizer</h1>
+<p>fornisce collegamenti R alla libreria Java Tabula , che può essere utilizzata per estrarre computazionalmente tabelle da documenti PDF. La funzione principale extract_tables()imita il comportamento della riga di comando della Tabula, estraendo tutte le tabelle da un file PDF e, per impostazione predefinita, restituisce quelle tabelle come un elenco di matrici di caratteri in R.</p>
+<pre><code>library(&quot;tabulizer&quot;)
+endangered_species_scrape &lt;- extract_tables(
+    file   = &quot;D:/DIR/lavoro/QEF_590_20.pdf&quot;, 
+    method = &quot;decide&quot;, 
+    output = &quot;data.frame&quot;)</code></pre>
+<p><img src="immagini/cbimage.png" /></p>
+<p><a href="https://rpubs.com/behzod/tabulizer" target="_blank">Scraping PDF files in R ‘manually’ with tabulizer package</a></p>
+<p><a href="https://datascienceplus.com/extracting-tables-from-pdfs-in-r-using-the-tabulizer-package/" target="_blank">Extracting Tables from PDFs in R using the Tabulizer Package</a></p>
+<p><a href="https://www.r-bloggers.com/2019/09/pdf-scraping-in-r-with-tabulizer/" target="_blank">PDF Scraping in R with tabulizer</a></p>
+<p><a href="https://www.agnesevardanega.eu/wiki/r/gestione_dei_dati/importare_tabelle_da_pdf" target="_blank">Importare tabelle da PDF</a></p>
+<p>Per importare dati da un file pdf, usiamo il pacchetto tabulizer1), che usa la libreria open source tabula :</p>
+<p>install.packages(“tabulizer”) library(tabulizer)</p>
+<p><br></p>
+<div id="estrarre-i-dati" class="section level2">
+<h2>Estrarre i dati</h2>
+<p><br></p>
+<div id="estrarre-direttamente-la-tabella" class="section level3">
+<h3>Estrarre direttamente la tabella</h3>
+<p>mydata &lt;- extract_tables(file.choose())</p>
+<p>Si aprirà la finestra di dialogo, che consentirà di scegliere il file PDF. Naturalmente, è possibile indicare semplicemente il nome del file:</p>
+<p>mydata &lt;- extract_tables(“myfile.pdf”)</p>
+<p>Possono essere estratte tabelle da più pagine. Il risultato sarà una lista di tabelle (formato carattere).</p>
+<p><br></p>
+</div>
+<div id="scegliere-la-pagina" class="section level3">
+<h3>Scegliere la pagina</h3>
+<p>Per indicare la pagina del file in cui è presente la tabella, usare l’argomento pages:</p>
+<p>mydata &lt;- extract_tables(file.choose(), pages = 3)</p>
+<p>In questo caso, verrà estratta la tabella a pagina 3.</p>
+<p><br></p>
+</div>
+<div id="selezionare-interattivamente-la-tabella" class="section level3">
+<h3>Selezionare interattivamente la tabella</h3>
+<p>Se nella pagina sono incluse diverse tabelle o aree di testo e tabelle, possiamo usare la funzione extract_areas():</p>
+<p>mydata &lt;- extract_areas(file.choose())</p>
+<p>Si aprirà una interfaccia html (Shiny) che permetterà di selezionare la tabella o area di testo da importare.</p>
+<p><br></p>
+</div>
+<div id="trasformare-i-dati-in-dataframe-o-altro-oggetto" class="section level3">
+<h3>Trasformare i dati in dataframe o altro oggetto</h3>
+<p>Infine, trasformeremo i dati importati nel tipo di oggetto adatto, ad esempio un dataframe:</p>
+<p>mydf &lt;- as.data.frame(mydata)</p>
+<ol style="list-style-type: decimal">
+<li>Thomas J. Leeper (2018). tabulizer: Bindings for Tabula PDF Table Extractor Library.</li>
+</ol>
+<p><br></p>
+<hr />
+<p><a href="https://www.r-bloggers.com/2019/09/pdf-scraping-in-r-with-tabulizer/" class="uri">https://www.r-bloggers.com/2019/09/pdf-scraping-in-r-with-tabulizer/</a></p>
+<pre><code>```
+library(&quot;tabulizer&quot;)
+endangered_species_scrape &lt;- extract_tables(
+  file   = &quot;C:/Users/paolo/Downloads/20211101_78.pdf&quot;, 
+  method = &quot;decide&quot;, 
+  output = &quot;data.frame&quot;)
+
+library(tidyr)
+library(dplyr)
+library(purrr)
+# Pluck the first table in the list
+endangered_species_raw_tbl &lt;- endangered_species_scrape %&gt;% pluck(1) %&gt;% as_tibble()
+
+endangered_species_raw_tbl %&gt;% knitr::kable()
+
+
+endangered_species_raw_tbl %&gt;% head() %&gt;% knitr::kable() # Show first 6 rows
+endangered_species_raw_tbl
+```</code></pre>
+<div id="section" class="section level12">
+<p class="heading"></p>
+<pre><code>```
+options(java.parameters = &quot;-Xmx12000m&quot;)
+
+library(beepr) #for fun sounds when task is completed :)
+library(tidyverse)
+library(tabulizer)
+library(shiny)
+
+
+area &lt;- locate_areas(&quot;D:/DIR/lavoro/QEF_590_20.pdf&quot;, pages = 12)
+
+area
+View(area)
+```</code></pre>
+<div id="section-1" class="section level13">
+<p class="heading"></p>
+<pre><code>```
+library(tesseract) #https://github.com/tesseract-ocr/tessdoc
+tesseract_download(&quot;ita&quot;)
+ita &lt;- tesseract(&quot;ita&quot;)
+
+tesseract_info()
+
+text &lt;- tesseract::ocr(&quot;https://edicoladigitale.milanofinanza.it/class/books/mf/2021/20210930mf/images/pages/Page-61.jpg)&quot;, engine = ita)
+cat(text)
+```</code></pre>
+<p><a href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html" class="uri">https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html</a><br />
+<a href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html#read_from_pdf_files" class="uri">https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html#read_from_pdf_files</a></p>
+</div>
+</div>
+<div id="section-2" class="section level5">
+<h5></h5>
+<pre><code>```
+# Requires devel version of magick
+# devtools::install_github(&quot;ropensci/magick&quot;)
+# Test it
+library(magick)
+library(magrittr)
+text &lt;- image_read(&quot;https://edicoladigitale.milanofinanza.it/class/books/mf/2021/20210930mf/images/pages/Page-60.jpg&quot;) %&gt;%
+  image_resize(&quot;1000&quot;) %&gt;%
+  image_convert(colorspace = &#39;gray&#39;) %&gt;%
+  image_trim() %&gt;%
+  image_ocr()
+cat(text)
+```</code></pre>
+<div id="section-3" class="section level12">
+<p class="heading"></p>
+<pre><code># Rendering should be supported on all platforms now
+# convert few pages to png
+    file.copy(file.path(Sys.getenv(&quot;R_DOC_DIR&quot;), &quot;NEWS.pdf&quot;), &quot;news.pdf&quot;)
+    pdf_convert(&quot;news.pdf&quot;, pages = 1:3)
+
+# render into raw bitmap
+    bitmap &lt;- pdf_render_page(&quot;news.pdf&quot;)
+
+# save to bitmap formats
+    png::writePNG(bitmap, &quot;page.png&quot;)
+    jpeg::writeJPEG(bitmap, &quot;page.jpeg&quot;)
+    webp::write_webp(bitmap, &quot;page.webp&quot;)
+
+# Higher quality
+    bitmap &lt;- pdf_render_page(&quot;news.pdf&quot;, page = 1, dpi = 300)
+    png::writePNG(bitmap, &quot;page.png&quot;)
+
+# slightly more efficient
+    bitmap_raw &lt;- pdf_render_page(&quot;news.pdf&quot;, numeric = FALSE)
+    webp::write_webp(bitmap_raw, &quot;page.webp&quot;)
+
+# Cleanup
+    unlink(c(&#39;news.pdf&#39;, &#39;news_1.png&#39;, &#39;news_2.png&#39;, &#39;news_3.png&#39;,
+             &#39;page.jpeg&#39;, &#39;page.png&#39;, &#39;page.webp&#39;))</code></pre>
+</div>
+<div id="section-4" class="section level7">
+<p class="heading"></p>
+<p>library(pdftools) <a href="https://ropensci.org/blog/2016/03/01/pdftools-and-jeroen/" class="uri">https://ropensci.org/blog/2016/03/01/pdftools-and-jeroen/</a></p>
+<p>renders pdf to bitmap array bitmap &lt;- pdf_render_page(“D:/DIR/lavoro/QEF_590_20.pdf”, page = 1)</p>
+<p>save bitmap image png::writePNG(bitmap, “page.png”)</p>
+<p>jpeg::writeJPEG(bitmap, “page.jpeg”) webp::write_webp(bitmap, “page.webp”)</p>
+<div id="section-5" class="section level8">
+<p class="heading"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="split-and-join-pdf-files" class="section level1">
+<h1>Split and Join PDF files</h1>
+<p>the pdf_subset() function creates a new pdf file with a selection of the pages from the input file</p>
+<p><a href="https://rpubs.com/kbodwin/pdftools" class="uri">https://rpubs.com/kbodwin/pdftools</a></p>
+<div id="load-pdftools" class="section level2">
+<h2>Load pdftools</h2>
+<p>library(pdftools)</p>
+</div>
+<div id="extract-some-pages" class="section level2">
+<h2>extract some pages</h2>
+<p>pdf_subset(‘<a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf" class="uri">https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf</a>’, pages = 1:3, output = “subset.pdf”)</p>
+</div>
+<div id="should-say-3" class="section level2">
+<h2>Should say 3</h2>
+<p>pdf_length(“subset.pdf”)</p>
+</div>
+</div>
+<div id="generate-another-pdf" class="section level1">
+<h1>Generate another pdf</h1>
+<p>pdf(“test.pdf”) plot(mtcars) dev.off()</p>
+<div id="similarly-pdf_combine-is-used-to-join-several-pdf-files-into-one." class="section level2">
+<h2>Similarly pdf_combine() is used to join several pdf files into one.</h2>
+</div>
+<div id="combine-them-with-the-other-one" class="section level2">
+<h2>Combine them with the other one</h2>
+<p>pdf_combine(c(“test.pdf”, “subset.pdf”), output = “joined.pdf”)</p>
+</div>
+<div id="should-say-4" class="section level2">
+<h2>Should say 4</h2>
+<p>pdf_length(“joined.pdf”)</p>
+<div id="section-6" class="section level8">
+<p class="heading"></p>
+<p><br></p>
+<hr />
+</div>
+</div>
+</div>
+<div id="da-png-a-r" class="section level1">
+<h1>Da PNG a R</h1>
+<p>library(pdftools) sapply(list, function(x) pdf_convert(x, format = “png”, pages = NULL, filenames = NULL, dpi = 300, opw = ““, upw =”“, verbose = TRUE))</p>
+<p>library(pdftools) directory&lt;-“pdf/data” file.list &lt;- paste(directory, “/”,list.files(directory, pattern = “*.pdf”), sep = ““) lapply(file.list, FUN = function(files) {pdf_convert(files, format =”png”,dpi = 300,pages =NULL,filenames =)})</p>
+<div id="section-7" class="section level10">
+<p class="heading"></p>
+<p>setwd(“C:/Users/paolo/Downloads”) library(“pdftools”) pdf.text &lt;- pdftools::pdf_text(“metenorme09_40classificazione_attivita_economiche_2007.pdf”) cat(pdf.text[[546]])</p>
+<p>txt &lt;- pdf_text(“metenorme09_40classificazione_attivita_economiche_2007.pdf”) text2 &lt;- strsplit(txt, “”)</p>
+<p><br></p>
+</div>
+<div id="export-a-list-into-a-csv-or-txt-file-in-r" class="section level2">
+<h2>Export a list into a CSV or TXT file in R</h2>
+<p>sink(“output.txt”) print(text2) sink()</p>
+<p><br></p>
+</div>
+<div id="oppure" class="section level2">
+<h2>oppure</h2>
+<p>cat(capture.output(print(text2), file=“test.txt”))</p>
+<p>write(text2, file=“text2.txt”)</p>
+<p>library(“tabulizer”) endangered_species_scrape &lt;- extract_tables( file = “metenorme09_40classificazione_attivita_economiche_2007.pdf”, method = “decide”, output = “data.frame”)</p>
+<hr />
+</div>
+</div>
+<div id="pdf" class="section level1">
+<h1>PDF</h1>
+<p><a href="https://ropensci.org/blog/2016/03/01/pdftools-and-jeroen/" class="uri">https://ropensci.org/blog/2016/03/01/pdftools-and-jeroen/</a></p>
+<pre><code>library(pdftools  
+download.file(&quot;http://arxiv.org/pdf/1403.2805.pdf&quot;, &quot;1403.2805.pdf&quot;, mode = &quot;wb&quot;)  
+txt &lt;- pdf_text(&quot;1403.2805.pdf&quot;)  
+cat(txt[1]) # first page text  
+cat(txt[2]) # second page text  </code></pre>
+<p>In addition, the package has some utilities to extract other data from the PDF file. The pdf_toc function shows the table of contents, i.e. the section headers which pdf readers usually display in a menu on the left. It looks pretty in JSON:</p>
+<pre><code>toc &lt;- pdf_toc(&quot;1403.2805.pdf&quot;) # Table of contents  
+jsonlite::toJSON(toc, auto_unbox = TRUE, pretty = TRUE)  # Show as JSON</code></pre>
+<p>Other functions provide information about fonts, attachments and metadata such as the author, creation date or tags.</p>
+<pre><code>info &lt;- pdf_info(&quot;1403.2805.pdf&quot;) # Author, version, etc  
+fonts &lt;- pdf_fonts(&quot;1403.2805.pdf&quot;) # Table with fonts  </code></pre>
+<p><br></p>
+</div>
+<div id="rendering-pdf" class="section level1">
+<h1>rendering pdf</h1>
+<p>A bonus feature on most platforms is rendering of PDF files to bitmap arrays. The poppler library provides all functionality to implement a complete PDF reader, including graphical display of the content. In R we can use pdf_render_page to render a page of the PDF into a bitmap, which can be stored as e.g. png or jpeg.</p>
+<pre><code>    bitmap &lt;- pdf_render_page(&quot;1403.2805.pdf&quot;, page = 1) # renders pdf to bitmap array  
+
+    png::writePNG(bitmap, &quot;page.png&quot;)  # save bitmap image
+    jpeg::writeJPEG(bitmap, &quot;page.jpeg&quot;)
+    webp::write_webp(bitmap, &quot;page.webp&quot;)  </code></pre>
+<p>The pdf format is pretty dumb and does not have notion of a table (unlike for example HTML). Tabular data in a pdf file is nothing more than strategically positioned lines and text, which makes it difficult to extract the raw data.</p>
+<pre><code>txt &lt;- pdf_text(&quot;http://arxiv.org/pdf/1406.4806.pdf&quot;)  
+cat(txt[18]) # some tables  
+cat(txt[19])</code></pre>
+<p>Pdftools usually does a decent job in retaining the positioning of table elements when converting from pdf to text. But the output is still very dependent on the formatting of the original pdf table, which makes it very difficult to write a generic table extractor. But with a little creativity you might be able to parse the table data from the text output of a given paper.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

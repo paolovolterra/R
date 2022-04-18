@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Diagrammi e flowchart in R</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.6.9000/grViz.js"></script>
+<script src="site_libs/d3-3.3.8/d3.min.js"></script>
+<script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<script src="site_libs/chromatography-0.1/chromatography.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.6.9000/DiagrammeR.js"></script>
+<link href="site_libs/vis-4.16.1/vis.min.css" rel="stylesheet" />
+<script src="site_libs/vis-4.16.1/vis.min.js"></script>
+<link href="site_libs/timeline-0.4/timevis.css" rel="stylesheet" />
+<script src="site_libs/timevis-binding-1.0.0/timevis.js"></script>
+<script src="site_libs/plotly-binding-4.9.4.1/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-1.57.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-1.57.1/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ghibbli</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    realizzare un sito
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="sito.html">
+        <span class="fa fa-tasks"></span>
+         
+        istruzioni
+      </a>
+    </li>
+    <li>
+      <a href="Markdown_HowTO.html">Markdown How To</a>
+    </li>
+    <li>
+      <a href="Markdown_books_sites.html">Markdown libri e siti</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-tasks"></span>
+     
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_ETL.html">ETL</a>
+    </li>
+    <li>
+      <a href="R_BI_DataVisualization.html">Data Visualization</a>
+    </li>
+    <li>
+      <a href="R_diagrammi.html">Diagrammi</a>
+    </li>
+    <li>
+      <a href="R_mindmap.html">Mappe concettuali/mentali</a>
+    </li>
+    <li>
+      <a href="R_miscellanea.html">Miscellanea</a>
+    </li>
+    <li>
+      <a href="R_scraping.html">Scraping</a>
+    </li>
+    <li>
+      <a href="R_pdf.html">PDF</a>
+    </li>
+    <li>
+      <a href="R_tables.html">tabelle</a>
+    </li>
+    <li>
+      <a href="RGeo.html">Geografia</a>
+    </li>
+    <li>
+      <a href="R_MachineLearning.html">Machine Learning</a>
+    </li>
+    <li class="dropdown-header">Business Intelligence</li>
+    <li class="divider"></li>
+    <li>
+      <a href="R_BI_quantili.html">Quantili</a>
+    </li>
+    <li>
+      <a href="R_BI_cluster.html">Cluster Analysis</a>
+    </li>
+    <li>
+      <a href="R_BI_PCA.html">PCA</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Python.html">
+    <span class="fa fa-tasks"></span>
+     
+    Python
+  </a>
+</li>
+<li>
+  <a href="MySql.html">
+    <span class="fa fa-tasks"></span>
+     
+    Mysql
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-briefcase"></span>
+     
+    lavoro
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lavoro_appunti.html">appunti</a>
+    </li>
+    <li class="dropdown-header">ANALISI</li>
+    <li class="divider"></li>
+    <li>
+      <a href="Superbonus.html">Superbonus</a>
+    </li>
+    <li>
+      <a href="PNRR.html">PNRR</a>
+    </li>
+    <li>
+      <a href="Sottocapitalizzazione.html">Sottocapitalizzazione</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    miscellanea
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="appunti.html">appunti</a>
+    </li>
+    <li>
+      <a href="links.html">pagine utili</a>
+    </li>
+    <li>
+      <a href="DAX_PowerQuery_PowerBI.html">DAX_PowerQuery_PowerBI</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://example.com">
+    <span class="fa fa-question fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Diagrammi e flowchart in R</h1>
+
+</div>
+
+
+<div id="flowchart" class="section level1">
+<h1>FLOWCHART</h1>
+<div id="diagramma-di-flusso-con-diagrammer" class="section level2">
+<h2><a href="https://datascienceplus.com/how-to-build-a-simple-flowchart-with-r-diagrammer-package/">diagramma di flusso con DiagrammeR</a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grViz</span>(<span class="st">&quot;digraph flowchart {</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st">      # node definitions with substituted label text</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">      node [fontname = Helvetica, shape = rectangle]        </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">      tab1 [label = &#39;@@1&#39;]</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">      tab2 [label = &#39;@@2&#39;]</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">      tab3 [label = &#39;@@3&#39;]</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">      tab4 [label = &#39;@@4&#39;]</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">      tab5 [label = &#39;@@5&#39;]</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">      # edge definitions with the node IDs</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">      tab1 -&gt; tab2 -&gt; tab3 -&gt; tab4 -&gt; tab5;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">      [1]: &#39;Questionnaire sent to n=1000 participants&#39;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">      [2]: &#39;Participants responded to questionnaire n=850&#39;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">      [3]: &#39;Participants came to clinic for evaluation n=700&#39;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">      [4]: &#39;Participants eligible for the study n=600&#39;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">      [5]: &#39;Study sample n=600&#39;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-aaa0f3932fe39b0c5507" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aaa0f3932fe39b0c5507">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"Questionnaire sent to n=1000 participants\"]\n      tab2 [label = \"Participants responded to questionnaire n=850\"]\n      tab3 [label = \"Participants came to clinic for evaluation n=700\"]\n      tab4 [label = \"Participants eligible for the study n=600\"]\n      tab5 [label = \"Study sample n=600\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2 -> tab3 -> tab4 -> tab5;\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grViz</span>(<span class="st">&quot;digraph flowchart {</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">      # node definitions with substituted label text</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">      node [fontname = Helvetica, shape = rectangle]        </span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">      tab1 [label = &#39;@@1&#39;]</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">      tab2 [label = &#39;@@2&#39;]</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">      tab3 [label = &#39;@@3&#39;]</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">      tab4 [label = &#39;@@4&#39;]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">      tab5 [label = &#39;@@5&#39;]</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="st">      # edge definitions with the node IDs</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">      tab1 -&gt; tab2;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="st">      tab2 -&gt; tab3;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="st">      tab2 -&gt; tab4 -&gt; tab5</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="st">      [1]: &#39;Questionnaire sent to n=1000 participants&#39;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">      [2]: &#39;Participants came to clinic for evaluation n=700&#39;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="st">      [3]: &#39;Participants non-eligible for the study n=100&#39;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="st">      [4]: &#39;Participants eligible for the study n=600&#39;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="st">      [5]: &#39;Study sample n=600&#39;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-1b7d22dc4459d0474f9b" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1b7d22dc4459d0474f9b">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"Questionnaire sent to n=1000 participants\"]\n      tab2 [label = \"Participants came to clinic for evaluation n=700\"]\n      tab3 [label = \"Participants non-eligible for the study n=100\"]\n      tab4 [label = \"Participants eligible for the study n=600\"]\n      tab5 [label = \"Study sample n=600\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2;\n      tab2 -> tab3;\n      tab2 -> tab4 -> tab5\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="diagrammi" class="section level1">
+<h1>DIAGRAMMI</h1>
+<div id="appunti" class="section level2">
+<h2>appunti</h2>
+<p><a href="https://github.com/rich-iannone/DiagrammeR" class="uri">https://github.com/rich-iannone/DiagrammeR</a> <img src="https://raw.githubusercontent.com/rich-iannone/DiagrammeR/main/man/figures/logo.svg" /></p>
+<p>install.packages(‘DiagrammeR’)</p>
+<p><img src="https://rich-iannone.github.io/DiagrammeR/img/traversals-from-edges-to-nodes-1.png" /></p>
+<p><img src="https://rich-iannone.github.io/DiagrammeR/img/rstudio-graphviz-syntax-coloring.png" /> <br> <br> <br></p>
+</div>
+<div id="graphviz" class="section level2">
+<h2>Graphviz</h2>
+<p>Graphviz consiste in un linguaggio di descrizione grafico chiamato linguaggio DOT e comprende anche vari strumenti in grado di elaborare il DOT linguaggio . DOT è altamente personalizzabile e consente di controllare i colori delle linee, le forme delle frecce, le forme dei nodi e molte altre funzionalità di layout.</p>
+</div>
+<div id="mermaid" class="section level2">
+<h2>Mermaid</h2>
+<p>Con esso, puoi descrivere grafici e diagrammi di sequenza.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mermaid</span>(<span class="st">&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">graph LR</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">  A--&gt;B</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">  A--&gt;C</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">  C--&gt;E</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">  B--&gt;D</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">  C--&gt;D</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">  D--&gt;F</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">  E--&gt;F</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-74b2bde191cb7672ff38" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-74b2bde191cb7672ff38">{"x":{"diagram":"\ngraph LR\n  A-->B\n  A-->C\n  C-->E\n  B-->D\n  C-->D\n  D-->F\n  E-->F\n"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mermaid</span>(<span class="st">&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">graph LR</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">A(Rounded)--&gt;B[Rectangular]</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">B--&gt;C{A Rhombus}</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">C--&gt;D[Rectangle One]</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">C--&gt;E[Rectangle Two]</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-b6dc8c7fc273ec628af9" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b6dc8c7fc273ec628af9">{"x":{"diagram":"\ngraph LR\nA(Rounded)-->B[Rectangular]\nB-->C{A Rhombus}\nC-->D[Rectangle One]\nC-->E[Rectangle Two]\n"},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mermaid</span>(<span class="st">&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">sequenceDiagram</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">  customer-&gt;&gt;ticket seller: ask ticket</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">  ticket seller-&gt;&gt;database: seats</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">  alt tickets available</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">    database-&gt;&gt;ticket seller: ok</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">    ticket seller-&gt;&gt;customer: confirm</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">    customer-&gt;&gt;ticket seller: ok</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">    ticket seller-&gt;&gt;database: book a seat</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">    ticket seller-&gt;&gt;printer: print ticket</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">  else sold out</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">    database-&gt;&gt;ticket seller: none left</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">    ticket seller-&gt;&gt;customer: sorry</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">  end</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-6dae93aad3e5273b1aaa" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6dae93aad3e5273b1aaa">{"x":{"diagram":"\nsequenceDiagram\n  customer->>ticket seller: ask ticket\n  ticket seller->>database: seats\n  alt tickets available\n    database->>ticket seller: ok\n    ticket seller->>customer: confirm\n    customer->>ticket seller: ok\n    ticket seller->>database: book a seat\n    ticket seller->>printer: print ticket\n  else sold out\n    database->>ticket seller: none left\n    ticket seller->>customer: sorry\n  end\n"},"evals":[],"jsHooks":[]}</script>
+<p>** Siti interessanti**</p>
+<p><a href="https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/">Data-driven flowcharts in R using DiagrammeR</a></p>
+<p>un esempio <img src="https://mikeyharper.uk/images/flowcharts.jpg" /></p>
+<p><br></p>
+<span id="fig:unnamed-chunk-1"></span>
+<div id="htmlwidget-2" class="grViz html-widget html-widget-static-bound" style="width:100%;height:201.6px;">
+<!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: %0 Pages: 1 -->
+<svg viewBox="0.00 0.00 378.67 98.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 100%; height: 100%;">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 94)">
+<title>
+%0
+</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-94 374.674,-94 374.674,4 -4,4"></polygon> <!-- data1 --> <g id="node1" class="node">
+<title>
+data1
+</title>
+<polygon fill="#f5f5dc" stroke="#000000" points="68.716,-90 65.716,-94 44.716,-94 41.716,-90 -.2398,-90 -.2398,-54 68.716,-54 68.716,-90"></polygon> <text text-anchor="middle" x="34.2381" y="-67.8" font-family="Times,serif" font-size="14.00" fill="#000000">Dataset 1</text> </g> <!-- process --> <g id="node3" class="node">
+<title>
+process
+</title>
+<polygon fill="#faf0e6" stroke="#000000" points="166.8692,-65.6019 104.3448,-65.6019 104.3448,-24.3981 166.8692,-24.3981 166.8692,-65.6019"></polygon> <text text-anchor="middle" x="135.607" y="-49.2" font-family="Times,serif" font-size="14.00" fill="#000000">Process </text> <text text-anchor="middle" x="135.607" y="-32.4" font-family="Times,serif" font-size="14.00" fill="#000000"> Data</text> </g> <!-- data1&#45;&gt;process --> <g id="edge1" class="edge">
+<title>
+data1-&gt;process
+</title>
+<path fill="none" stroke="#000000" d="M68.557,-62.859C76.8962,-60.6379 85.8975,-58.2403 94.5148,-55.9451"></path> <polygon fill="#000000" stroke="#000000" points="95.6295,-59.2703 104.3918,-53.3143 93.8278,-52.5061 95.6295,-59.2703"></polygon> </g> <!-- data2 --> <g id="node2" class="node">
+<title>
+data2
+</title>
+<polygon fill="#f5f5dc" stroke="#000000" points="68.716,-36 65.716,-40 44.716,-40 41.716,-36 -.2398,-36 -.2398,0 68.716,0 68.716,-36"></polygon> <text text-anchor="middle" x="34.2381" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">Dataset 2</text> </g> <!-- data2&#45;&gt;process --> <g id="edge2" class="edge">
+<title>
+data2-&gt;process
+</title>
+<path fill="none" stroke="#000000" d="M68.557,-27.141C76.8962,-29.3621 85.8975,-31.7597 94.5148,-34.0549"></path> <polygon fill="#000000" stroke="#000000" points="93.8278,-37.4939 104.3918,-36.6857 95.6295,-30.7297 93.8278,-37.4939"></polygon> </g> <!-- statistical --> <g id="node4" class="node">
+<title>
+statistical
+</title>
+<polygon fill="#faf0e6" stroke="#000000" points="277.3102,-65.6019 202.88,-65.6019 202.88,-24.3981 277.3102,-24.3981 277.3102,-65.6019"></polygon> <text text-anchor="middle" x="240.0951" y="-49.2" font-family="Times,serif" font-size="14.00" fill="#000000">Statistical </text> <text text-anchor="middle" x="240.0951" y="-32.4" font-family="Times,serif" font-size="14.00" fill="#000000"> Analysis</text> </g> <!-- process&#45;&gt;statistical --> <g id="edge3" class="edge">
+<title>
+process-&gt;statistical
+</title>
+<path fill="none" stroke="#000000" d="M166.9569,-45C175.0796,-45 184.0091,-45 192.7537,-45"></path> <polygon fill="#000000" stroke="#000000" points="192.8749,-48.5001 202.8749,-45 192.8748,-41.5001 192.8749,-48.5001"></polygon> </g> <!-- results --> <g id="node5" class="node">
+<title>
+results
+</title>
+<polygon fill="#faf0e6" stroke="#000000" points="370.7852,-63 313.3412,-63 313.3412,-27 370.7852,-27 370.7852,-63"></polygon> <text text-anchor="middle" x="342.0632" y="-40.8" font-family="Times,serif" font-size="14.00" fill="#000000">Results</text> </g> <!-- statistical&#45;&gt;results --> <g id="edge4" class="edge">
+<title>
+statistical-&gt;results
+</title>
+<path fill="none" stroke="#000000" d="M277.4853,-45C285.8903,-45 294.8272,-45 303.2875,-45"></path> <polygon fill="#000000" stroke="#000000" points="303.3031,-48.5001 313.3031,-45 303.3031,-41.5001 303.3031,-48.5001"></polygon> </g> </g>
+</svg>
+</div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Dataset 1\", shape = folder, fillcolor = Beige]\ndata2 [label = \"Dataset 2\", shape = folder, fillcolor = Beige]\nprocess [label =  \"Process \n Data\"]\nstatistical [label = \"Statistical \n Analysis\"]\nresults [label= \"Results\"]\n\n# edge definitions with the node IDs\n{data1 data2}  -> process -> statistical -> results\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 3: A basic flowchart
+</p>
+<p><br></p>
+<span id="fig:subgraphs"></span>
+<div id="htmlwidget-4" class="grViz html-widget html-widget-static-bound" style="width:100%;height:480px;">
+<!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: G Pages: 1 -->
+<svg viewBox="0.00 0.00 580.00 280.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 100%; height: 100%;">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 276)">
+<title>
+G
+</title>
+<polygon fill="#fdfdfd" stroke="transparent" points="-4,4 -4,-276 576.0028,-276 576.0028,4 -4,4"></polygon> <g id="clust1" class="cluster">
+<title>
+cluster_accepted
+</title>
+<polygon fill="#fdfdfd" stroke="#625a5a" stroke-dasharray="5,2" points="8,-8 8,-264 276.0028,-264 276.0028,-8 8,-8"></polygon> <text text-anchor="middle" x="142.0014" y="-247.4" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00" fill="#000000">Accepted </text> <text text-anchor="middle" x="142.0014" y="-230.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00" fill="#000000"> (n=1403)</text> </g> <g id="clust2" class="cluster">
+<title>
+cluster_submitted
+</title>
+<polygon fill="#fdfdfd" stroke="#625a5a" stroke-dasharray="5,2" points="296.0028,-8 296.0028,-264 420.0028,-264 420.0028,-8 296.0028,-8"></polygon> <text text-anchor="middle" x="358.0028" y="-247.4" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00" fill="#000000">Submitted </text> <text text-anchor="middle" x="358.0028" y="-230.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00" fill="#000000"> (n=489)</text> </g> <g id="clust3" class="cluster">
+<title>
+cluster_rejected
+</title>
+<polygon fill="#fdfdfd" stroke="#625a5a" stroke-dasharray="5,2" points="440.0028,-8 440.0028,-264 564.0028,-264 564.0028,-8 440.0028,-8"></polygon> <text text-anchor="middle" x="502.0028" y="-247.4" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00" fill="#000000">Rejected </text> <text text-anchor="middle" x="502.0028" y="-230.6" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="14.00" fill="#000000"> (n=1700)</text> </g> <!-- a0 --> <g id="node1" class="node">
+<title>
+a0
+</title>
+<polygon fill="#91cf60" stroke="#000000" points="124,-214 16,-214 16,-178 124,-178 124,-214"></polygon> <text text-anchor="middle" x="70" y="-192.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Approved</text> </g> <!-- a2 --> <g id="node3" class="node">
+<title>
+a2
+</title>
+<polygon fill="#91cf60" stroke="#000000" points="268.0042,-214 159.9986,-214 159.9986,-178 268.0042,-178 268.0042,-214"></polygon> <text text-anchor="middle" x="214.0014" y="-192.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Decommissioned</text> </g> <!-- a0&#45;&gt;a2 --> <!-- a1 --> <g id="node2" class="node">
+<title>
+a1
+</title>
+<polygon fill="#91cf60" stroke="#000000" points="124,-160.3005 16,-160.3005 16,-123.6995 124,-123.6995 124,-160.3005"></polygon> <text text-anchor="middle" x="70" y="-145.6" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Awaiting </text> <text text-anchor="middle" x="70" y="-131.2" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000"> Construction</text> </g> <!-- a5 --> <g id="node6" class="node">
+<title>
+a5
+</title>
+<polygon fill="#91cf60" stroke="#000000" points="268.0014,-160.3005 160.0014,-160.3005 160.0014,-123.6995 268.0014,-123.6995 268.0014,-160.3005"></polygon> <text text-anchor="middle" x="214.0014" y="-145.6" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">No Application </text> <text text-anchor="middle" x="214.0014" y="-131.2" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000"> Required</text> </g> <!-- a1&#45;&gt;a5 --> <!-- s0 --> <g id="node7" class="node">
+<title>
+s0
+</title>
+<polygon fill="#fee08b" stroke="#000000" points="412.0028,-214 304.0028,-214 304.0028,-178 412.0028,-178 412.0028,-214"></polygon> <text text-anchor="middle" x="358.0028" y="-192.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">In Planning</text> </g> <!-- a2&#45;&gt;s0 --> <!-- a3 --> <g id="node4" class="node">
+<title>
+a3
+</title>
+<polygon fill="#91cf60" stroke="#000000" points="124,-106 16,-106 16,-70 124,-70 124,-106"></polygon> <text text-anchor="middle" x="70" y="-84.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Operational</text> </g> <!-- a4 --> <g id="node5" class="node">
+<title>
+a4
+</title>
+<polygon fill="#91cf60" stroke="#000000" points="124,-52.3005 16,-52.3005 16,-15.6995 124,-15.6995 124,-52.3005"></polygon> <text text-anchor="middle" x="70" y="-37.6" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Under </text> <text text-anchor="middle" x="70" y="-23.2" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000"> Construction</text> </g> <!-- b0 --> <g id="node11" class="node">
+<title>
+b0
+</title>
+<polygon fill="#fc8d59" stroke="#000000" points="556.0028,-214 448.0028,-214 448.0028,-178 556.0028,-178 556.0028,-214"></polygon> <text text-anchor="middle" x="502.0028" y="-192.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Refused</text> </g> <!-- s0&#45;&gt;b0 --> <!-- s1 --> <g id="node8" class="node">
+<title>
+s1
+</title>
+<polygon fill="#fee08b" stroke="#000000" points="412.0028,-160.3005 304.0028,-160.3005 304.0028,-123.6995 412.0028,-123.6995 412.0028,-160.3005"></polygon> <text text-anchor="middle" x="358.0028" y="-145.6" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Connection </text> <text text-anchor="middle" x="358.0028" y="-131.2" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000"> Applied For</text> </g> <!-- s3 --> <!-- s4 --> <!-- b1 --> <g id="node12" class="node">
+<title>
+b1
+</title>
+<polygon fill="#fc8d59" stroke="#000000" points="556.0028,-160 448.0028,-160 448.0028,-124 556.0028,-124 556.0028,-160"></polygon> <text text-anchor="middle" x="502.0028" y="-138.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Withdrawn</text> </g> <!-- b2 --> <g id="node13" class="node">
+<title>
+b2
+</title>
+<polygon fill="#fc8d59" stroke="#000000" points="556.0028,-106.3005 448.0028,-106.3005 448.0028,-69.6995 556.0028,-69.6995 556.0028,-106.3005"></polygon> <text text-anchor="middle" x="502.0028" y="-91.6" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">No Application </text> <text text-anchor="middle" x="502.0028" y="-77.2" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000"> Made</text> </g> <!-- b3 --> <g id="node14" class="node">
+<title>
+b3
+</title>
+<polygon fill="#fc8d59" stroke="#000000" points="556.0028,-52 448.0028,-52 448.0028,-16 556.0028,-16 556.0028,-52"></polygon> <text text-anchor="middle" x="502.0028" y="-30.4" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#000000">Abandoned</text> </g> </g>
+</svg>
+</div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"diagram":"digraph G {\nrankdir=LR\ngraph[bgcolor = \"#FDFDFD\"]\nedge[style=invis]\nnode[fontname = \"helvetica\", width = 1.5, height = 0.5, fontsize=12]\n\t\n    subgraph cluster_accepted {\n    node [shape=box,style=filled, fillcolor = red];\n    label = \"Accepted \n (n=1403)\";\n    style=dashed;\n\t\tcolor= \"#625a5a\";\n        fontname = \"helvetica-bold\";\n        \n\t\tnode [shape=box, style=filled, color=black, fillcolor = \"#91cf60\"];\n\t\t    a0[label = \"Approved\"]\n        a1[label = \"Awaiting \\n Construction\"]\n        a2[label = \"Decommissioned\"]\n        a3[label = \"Operational\"]\n        a4[label = \"Under \\n Construction\"]\n        a5[label = \"No Application \\n Required\"]\n        \n        a0 -> a2\n        a1 -> a5\n\n\t}\n  \n    subgraph cluster_submitted {\n    node [shape=box, style = filled, color=black, fillcolor = \"#fee08b\"];\n\t\tlabel = \"Submitted \n (n=489)\";\n        style=dashed;\n\t\tcolor= \"#625a5a\";\n\n        fontname = \"helvetica-bold\";\n        \n\t\ts0[label = \"In Planning\"]\n        s1[label = \"Connection \\n Applied For\"]\n        s3[style=invis]\n        s4[style=invis]\n        \n}\n    \n\tsubgraph cluster_rejected {\n    node [shape=box, style = filled, color=black, fillcolor = \"#fc8d59\n\"];\n\t\tlabel = \"Rejected \n (n=1700)\";\n        style=dashed;\n        fontname = \"helvetica-bold\";\n        color=\"#625a5a\"\n                \n\t\tb0[label = \"Refused\"]\n        b1[label = \"Withdrawn\"]\n        b2[label = \"No Application \\n Made\"]\n        b3[label = \"Abandoned\"];\n\n\n        }\n        \na2 -> s0 -> b0\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 5: An example of subgraphs used to highlight grouping within a dataset
+</p>
+<p><br> <br></p>
+</div>
+<div id="la-stessa-immagine-ma-in-r" class="section level2">
+<h2>la stessa immagine ma in R</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A minimal plot</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">&quot;digraph {</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">graph[layout = dot, rankdir = LR]</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">a</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="st">b</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="st">c</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="st">a -&gt; b -&gt; c</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="st">}&quot;</span>)</span></code></pre></div>
+<div class="figure">
+<div id="htmlwidget-f2b72ae871ad7a407226" style="width:672px;height:168px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f2b72ae871ad7a407226">{"x":{"diagram":"digraph {\n  \ngraph[layout = dot, rankdir = LR]\na\nb\nc\na -> b -> c\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+A minimal example
+</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">&quot;digraph {</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">graph [layout = dot, rankdir = LR]</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st"># define the global styles of the nodes. We can override these in box if we wish</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">node [shape = rectangle, style = filled, fillcolor = Linen]</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">data1 [label = &#39;Dataset 1&#39;, shape = folder, fillcolor = Beige]</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">data2 [label = &#39;Dataset 2&#39;, shape = folder, fillcolor = Beige]</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">process [label =  &#39;Process </span><span class="sc">\n</span><span class="st"> Data&#39;]</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">statistical [label = &#39;Statistical </span><span class="sc">\n</span><span class="st"> Analysis&#39;]</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">results [label= &#39;Results&#39;]</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st"># edge definitions with the node IDs</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">{data1 data2}  -&gt; process -&gt; statistical -&gt; results</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">}&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<div id="htmlwidget-b32f61d56e39fdf16bd6" style="width:672px;height:201.6px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b32f61d56e39fdf16bd6">{"x":{"diagram":"digraph {\ngraph [layout = dot, rankdir = LR]\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\ndata1 [label = \"Dataset 1\", shape = folder, fillcolor = Beige]\ndata2 [label = \"Dataset 2\", shape = folder, fillcolor = Beige]\nprocess [label =  \"Process \n Data\"]\nstatistical [label = \"Statistical \n Analysis\"]\nresults [label= \"Results\"]\n# edge definitions with the node IDs\n{data1 data2}  -> process -> statistical -> results\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+A basic flowchart
+</p>
+</div>
+</div>
+<div id="parameterized-figures" class="section level2">
+<h2>Parameterized figures</h2>
+<p>A great benefit of designing figures within R is that we are able to connect the figures directly with our analysis by reading R values directly into our flowcharts. For example, suppose you have created a filtering process which removes values after each stage of a process, you can have a figure show the number of values left in the dataset after each stage of your process. To do this we, you can use the <code>@@X</code> symbol directly within the figure, then refer to this in the footer of the plot using <code>[X]:</code>, where <code>X</code> is the a unique numeric index. Here is a basic example:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define some sample data</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a=</span><span class="dv">1000</span>, <span class="at">b=</span><span class="dv">800</span>, <span class="at">c=</span><span class="dv">600</span>, <span class="at">d=</span><span class="dv">400</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>DiagrammeR<span class="sc">::</span><span class="fu">grViz</span>(<span class="st">&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">digraph graph2 {</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">graph [layout = dot]</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st"># node definitions with substituted label text</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">node [shape = rectangle, width = 4, fillcolor = Biege]</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">a [label = &#39;@@1&#39;]</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">b [label = &#39;@@2&#39;]</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">c [label = &#39;@@3&#39;]</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">d [label = &#39;@@4&#39;]</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">a -&gt; b -&gt; c -&gt; d</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">[1]:  paste0(&#39;Raw Data (n = &#39;, data$a, &#39;)&#39;)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="st">[2]: paste0(&#39;Remove Errors (n = &#39;, data$b, &#39;)&#39;)</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="st">[3]: paste0(&#39;Identify Potential Customers (n = &#39;, data$c, &#39;)&#39;)</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="st">[4]: paste0(&#39;Select Top Priorities (n = &#39;, data$d, &#39;)&#39;)</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center">
+<div id="htmlwidget-c8e7442a1c372e712372" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c8e7442a1c372e712372">{"x":{"diagram":"\ndigraph graph2 {\ngraph [layout = dot]\n# node definitions with substituted label text\nnode [shape = rectangle, width = 4, fillcolor = Biege]\na [label = \"Raw Data (n = 1000)\"]\nb [label = \"Remove Errors (n = 800)\"]\nc [label = \"Identify Potential Customers (n = 600)\"]\nd [label = \"Select Top Priorities (n = 400)\"]\na -> b -> c -> d\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+A flowchart containing R code replacement
+</p>
+</div>
+<hr />
+</div>
+<div id="funnel" class="section level2">
+<h2>Funnel</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grViz</span>(<span class="st">&quot;digraph flowchart {</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">  # node definitions with substituted label text</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">  node [fontname = Helvetica, shape = rectangle, fixedsize = false, width = 1] </span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">  1 [label = &#39;data (100%)&#39;]</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">  2 [label = &#39;data  (74.4%)&#39;]</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">  3 [label = &#39;data  (69.6%)&#39;]</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">  4 [label = &#39;data  (55.4%)&#39;]</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">  m1 [label = &#39;missing (25.6%)&#39;]</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">  m2 [label = &#39;missing (4.8%)&#39;]</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">  node [shape=none, width=0, height=0, label=&#39;&#39;]</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="st">  p1 -&gt; 2; p2 -&gt; 3 -&gt; 4;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="st">  {rank=same; p1 -&gt; m1}</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="st">  {rank=same; p2 -&gt; m2}</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="st">  edge [dir=none]</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="st">  1 -&gt; p1; 2 -&gt; p2;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="st">}&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-5af3f072a1252eb6560f" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5af3f072a1252eb6560f">{"x":{"diagram":"digraph flowchart {\n  # node definitions with substituted label text\n  node [fontname = Helvetica, shape = rectangle, fixedsize = false, width = 1] \n  1 [label = \"data (100%)\"]\n  2 [label = \"data  (74.4%)\"]\n  3 [label = \"data  (69.6%)\"]\n  4 [label = \"data  (55.4%)\"]\n  m1 [label = \"missing (25.6%)\"]\n  m2 [label = \"missing (4.8%)\"]\n\n  node [shape=none, width=0, height=0, label=\"\"]\n  p1 -> 2; p2 -> 3 -> 4;\n  {rank=same; p1 -> m1}\n  {rank=same; p2 -> m2}\n\n  edge [dir=none]\n  1 -> p1; 2 -> p2;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="gannt" class="section level2">
+<h2>Gannt</h2>
+<p><a href="https://stackoverflow.com/questions/3550341/gantt-charts-with-r" class="uri">https://stackoverflow.com/questions/3550341/gantt-charts-with-r</a></p>
+<div id="mermaid-1" class="section level3">
+<h3>Mermaid</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mermaid</span>(<span class="st">&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">gantt</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">dateFormat  YYYY-MM-DD</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">title A Very Nice Gantt Diagram</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">section Basic Tasks</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">This is completed             :done,          first_1,    2014-01-06, 2014-01-08</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">This is active                :active,        first_2,    2014-01-09, 3d</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">Do this later                 :               first_3,    after first_2, 5d</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">Do this after that            :               first_4,    after first_3, 5d</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="st">section Important Things</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="st">Completed, critical task      :crit, done,    import_1,   2014-01-06,24h</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="st">Also done, also critical      :crit, done,    import_2,   after import_1, 2d</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="st">Doing this important task now :crit, active,  import_3,   after import_2, 3d</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">Next critical task            :crit,          import_4,   after import_3, 5d</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="st">section The Extras</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="st">First extras                  :active,        extras_1,   after import_4,  3d</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">Second helping                :               extras_2,   after extras_1, 20h</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="st">More of the extras            :               extras_3,   after extras_1, 48h</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span>)</span></code></pre></div>
+<div id="htmlwidget-b33f9967193ffada65b4" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b33f9967193ffada65b4">{"x":{"diagram":"\ngantt\ndateFormat  YYYY-MM-DD\ntitle A Very Nice Gantt Diagram\n\nsection Basic Tasks\nThis is completed             :done,          first_1,    2014-01-06, 2014-01-08\nThis is active                :active,        first_2,    2014-01-09, 3d\nDo this later                 :               first_3,    after first_2, 5d\nDo this after that            :               first_4,    after first_3, 5d\n\nsection Important Things\nCompleted, critical task      :crit, done,    import_1,   2014-01-06,24h\nAlso done, also critical      :crit, done,    import_2,   after import_1, 2d\nDoing this important task now :crit, active,  import_3,   after import_2, 3d\nNext critical task            :crit,          import_4,   after import_3, 5d\n\nsection The Extras\nFirst extras                  :active,        extras_1,   after import_4,  3d\nSecond helping                :               extras_2,   after extras_1, 20h\nMore of the extras            :               extras_3,   after extras_1, 48h\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="gantifry" class="section level3">
+<h3><a href="https://github.com/giocomai/ganttrify">Gantifry</a></h3>
+<p>ganttrify(project = ganttrify::test_project, spots = ganttrify::test_spots, project_start_date = “2020-01”, font_family = “Roboto Condensed”)+ ggplot2::labs(title = “My beautiful plans for 2020”, subtitle = “I will definitely comply with the exact timing of each and all activities<em>”, caption = ”</em> I mean, I’ll do my best, but if there’s a pandemic or something, it’s not my fault really”)</p>
+</div>
+<div id="timevis" class="section level3">
+<h3>Timevis</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(timevis)</span></code></pre></div>
+<pre><code>## Warning: package &#39;timevis&#39; was built under R version 4.0.5</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id      =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">content =</span> <span class="fu">c</span>(<span class="st">&quot;Item one&quot;</span>  , <span class="st">&quot;Item two&quot;</span>  ,<span class="st">&quot;Ranged item&quot;</span>, <span class="st">&quot;Item four&quot;</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">start   =</span> <span class="fu">c</span>(<span class="st">&quot;2016-01-10&quot;</span>, <span class="st">&quot;2016-01-11&quot;</span>, <span class="st">&quot;2016-01-20&quot;</span>, <span class="st">&quot;2016-02-14 15:00:00&quot;</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">end     =</span> <span class="fu">c</span>(<span class="cn">NA</span>          ,           <span class="cn">NA</span>, <span class="st">&quot;2016-02-04&quot;</span>, <span class="cn">NA</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">timevis</span>(data)</span></code></pre></div>
+<div id="htmlwidget-0d31f688a959aa790688" class="timevis html-widget" style="width:672px;height:480px;">
+<div class="btn-group zoom-menu">
+<button type="button" class="btn btn-default btn-lg zoom-in" title="Zoom in">+</button>
+<button type="button" class="btn btn-default btn-lg zoom-out" title="Zoom out">-</button>
+</div>
+</div>
+<script type="application/json" data-for="htmlwidget-0d31f688a959aa790688">{"x":{"items":[{"id":"1","content":"Item one","start":"2016-01-10"},{"id":"2","content":"Item two","start":"2016-01-11"},{"id":"3","content":"Ranged item","start":"2016-01-20","end":"2016-02-04"},{"id":"4","content":"Item four","start":"2016-02-14 15:00:00"}],"groups":null,"showZoom":true,"zoomFactor":0.5,"fit":true,"options":[],"height":null,"timezone":null,"api":[]},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="plotly" class="section level3">
+<h3>Plotly</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code></pre></div>
+<pre><code>## Warning: package &#39;plotly&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:flextable&#39;:
+## 
+##     highlight, style</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://cdn.rawgit.com/plotly/datasets/master/GanttChart-updated.csv&quot;</span>, </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">stringsAsFactors =</span> F)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Start  <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(df<span class="sc">$</span>Start, <span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>client    <span class="ot">&lt;-</span> <span class="st">&quot;Sample Client&quot;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>cols      <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="fu">length</span>(<span class="fu">unique</span>(df<span class="sc">$</span>Resource)), <span class="at">name =</span> <span class="st">&quot;Set3&quot;</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>color  <span class="ot">&lt;-</span> <span class="fu">factor</span>(df<span class="sc">$</span>Resource, <span class="at">labels =</span> cols)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>()</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(df) <span class="sc">-</span> <span class="dv">1</span>)){</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">add_trace</span>(p,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x =</span> <span class="fu">c</span>(df<span class="sc">$</span>Start[i], df<span class="sc">$</span>Start[i] <span class="sc">+</span> df<span class="sc">$</span>Duration[i]), </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> <span class="fu">c</span>(i, i), </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">mode =</span> <span class="st">&quot;lines&quot;</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> df<span class="sc">$</span>color[i], <span class="at">width =</span> <span class="dv">20</span>),</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">showlegend =</span> F,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">hoverinfo =</span> <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">text =</span> <span class="fu">paste</span>(<span class="st">&quot;Task: &quot;</span>, df<span class="sc">$</span>Task[i], <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Duration: &quot;</span>, df<span class="sc">$</span>Duration[i], <span class="st">&quot;days&lt;br&gt;&quot;</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Resource: &quot;</span>, df<span class="sc">$</span>Resource[i]),</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>                 <span class="at">evaluate =</span> T</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<pre><code>## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter</code></pre>
+<pre><code>## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter
+## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter
+## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter
+## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter
+## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter
+## No trace type specified:
+##   Based on info supplied, a &#39;scatter&#39; trace seems appropriate.
+##   Read more about this trace type -&gt; https://plotly.com/r/reference/#scatter</code></pre>
+<pre><code>## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;</code></pre>
+<pre><code>## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;
+
+## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;
+
+## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;
+
+## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;
+
+## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;
+
+## Warning: &#39;scatter&#39; objects don&#39;t have these attributes: &#39;evaluate&#39;
+## Valid attributes include:
+## &#39;type&#39;, &#39;visible&#39;, &#39;showlegend&#39;, &#39;legendgroup&#39;, &#39;opacity&#39;, &#39;name&#39;, &#39;uid&#39;, &#39;ids&#39;, &#39;customdata&#39;, &#39;meta&#39;, &#39;selectedpoints&#39;, &#39;hoverinfo&#39;, &#39;hoverlabel&#39;, &#39;stream&#39;, &#39;transforms&#39;, &#39;uirevision&#39;, &#39;x&#39;, &#39;x0&#39;, &#39;dx&#39;, &#39;y&#39;, &#39;y0&#39;, &#39;dy&#39;, &#39;xperiod&#39;, &#39;yperiod&#39;, &#39;xperiod0&#39;, &#39;yperiod0&#39;, &#39;xperiodalignment&#39;, &#39;yperiodalignment&#39;, &#39;stackgroup&#39;, &#39;orientation&#39;, &#39;groupnorm&#39;, &#39;stackgaps&#39;, &#39;text&#39;, &#39;texttemplate&#39;, &#39;hovertext&#39;, &#39;mode&#39;, &#39;hoveron&#39;, &#39;hovertemplate&#39;, &#39;line&#39;, &#39;connectgaps&#39;, &#39;cliponaxis&#39;, &#39;fill&#39;, &#39;fillcolor&#39;, &#39;marker&#39;, &#39;selected&#39;, &#39;unselected&#39;, &#39;textposition&#39;, &#39;textfont&#39;, &#39;r&#39;, &#39;t&#39;, &#39;error_x&#39;, &#39;error_y&#39;, &#39;xcalendar&#39;, &#39;ycalendar&#39;, &#39;xaxis&#39;, &#39;yaxis&#39;, &#39;idssrc&#39;, &#39;customdatasrc&#39;, &#39;metasrc&#39;, &#39;hoverinfosrc&#39;, &#39;xsrc&#39;, &#39;ysrc&#39;, &#39;textsrc&#39;, &#39;texttemplatesrc&#39;, &#39;hovertextsrc&#39;, &#39;hovertemplatesrc&#39;, &#39;textpositionsrc&#39;, &#39;rsrc&#39;, &#39;tsrc&#39;, &#39;key&#39;, &#39;set&#39;, &#39;frame&#39;, &#39;transforms&#39;, &#39;_isNestedKey&#39;, &#39;_isSimpleKey&#39;, &#39;_isGraticule&#39;, &#39;_bbox&#39;</code></pre>
+<div id="htmlwidget-a68f7db105a03c4a35a3" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a68f7db105a03c4a35a3">{"x":{"visdat":{"229c5c195630":["function () ","plotlyVisDat"]},"cur_data":"229c5c195630","attrs":{"229c5c195630":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-01-01","2016-02-20"],"y":[1,1],"mode":"lines","line":{"color":"#8DD3C7","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 1 <br> Duration:  50 days<br> Resource:  A","evaluate":true,"inherit":true},"229c5c195630.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-02-20","2016-03-16"],"y":[2,2],"mode":"lines","line":{"color":"#FFFFB3","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 2 <br> Duration:  25 days<br> Resource:  B","evaluate":true,"inherit":true},"229c5c195630.2":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-01-01","2016-04-10"],"y":[3,3],"mode":"lines","line":{"color":"#BEBADA","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 3 <br> Duration:  100 days<br> Resource:  C","evaluate":true,"inherit":true},"229c5c195630.3":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-04-10","2016-06-09"],"y":[4,4],"mode":"lines","line":{"color":"#BEBADA","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 4 <br> Duration:  60 days<br> Resource:  C","evaluate":true,"inherit":true},"229c5c195630.4":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-06-09","2016-07-09"],"y":[5,5],"mode":"lines","line":{"color":"#BEBADA","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 5 <br> Duration:  30 days<br> Resource:  C","evaluate":true,"inherit":true},"229c5c195630.5":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-04-10","2016-09-07"],"y":[6,6],"mode":"lines","line":{"color":"#8DD3C7","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 6 <br> Duration:  150 days<br> Resource:  A","evaluate":true,"inherit":true},"229c5c195630.6":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":["2016-09-07","2016-11-26"],"y":[7,7],"mode":"lines","line":{"color":"#FFFFB3","width":20},"showlegend":false,"hoverinfo":"text","text":"Task:  Task 7 <br> Duration:  80 days<br> Resource:  B","evaluate":true,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["2016-01-01","2016-02-20"],"y":[1,1],"mode":"lines","line":{"color":"#8DD3C7","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 1 <br> Duration:  50 days<br> Resource:  A","Task:  Task 1 <br> Duration:  50 days<br> Resource:  A"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2016-02-20","2016-03-16"],"y":[2,2],"mode":"lines","line":{"color":"#FFFFB3","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 2 <br> Duration:  25 days<br> Resource:  B","Task:  Task 2 <br> Duration:  25 days<br> Resource:  B"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2016-01-01","2016-04-10"],"y":[3,3],"mode":"lines","line":{"color":"#BEBADA","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 3 <br> Duration:  100 days<br> Resource:  C","Task:  Task 3 <br> Duration:  100 days<br> Resource:  C"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2016-04-10","2016-06-09"],"y":[4,4],"mode":"lines","line":{"color":"#BEBADA","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 4 <br> Duration:  60 days<br> Resource:  C","Task:  Task 4 <br> Duration:  60 days<br> Resource:  C"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2016-06-09","2016-07-09"],"y":[5,5],"mode":"lines","line":{"color":"#BEBADA","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 5 <br> Duration:  30 days<br> Resource:  C","Task:  Task 5 <br> Duration:  30 days<br> Resource:  C"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(148,103,189,1)","line":{"color":"rgba(148,103,189,1)"}},"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2016-04-10","2016-09-07"],"y":[6,6],"mode":"lines","line":{"color":"#8DD3C7","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 6 <br> Duration:  150 days<br> Resource:  A","Task:  Task 6 <br> Duration:  150 days<br> Resource:  A"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(140,86,75,1)","line":{"color":"rgba(140,86,75,1)"}},"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2016-09-07","2016-11-26"],"y":[7,7],"mode":"lines","line":{"color":"#FFFFB3","width":20},"showlegend":false,"hoverinfo":["text","text"],"text":["Task:  Task 7 <br> Duration:  80 days<br> Resource:  B","Task:  Task 7 <br> Duration:  80 days<br> Resource:  B"],"evaluate":true,"type":"scatter","marker":{"color":"rgba(227,119,194,1)","line":{"color":"rgba(227,119,194,1)"}},"error_y":{"color":"rgba(227,119,194,1)"},"error_x":{"color":"rgba(227,119,194,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="section" class="section level3">
+<h3></h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googleVis)</span></code></pre></div>
+<pre><code>## Warning: package &#39;googleVis&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Creating a generic function for &#39;toJSON&#39; from package &#39;jsonlite&#39; in package &#39;googleVis&#39;</code></pre>
+<pre><code>## 
+## Welcome to googleVis version 0.6.10
+## 
+## Please read Google&#39;s Terms of Use
+## before you start using the package:
+## https://developers.google.com/terms/
+## 
+## Note, the plot method of googleVis will by default use
+## the standard browser to display its output.
+## 
+## See the googleVis package vignettes for more details,
+## or visit https://github.com/mages/googleVis.
+## 
+## To suppress this message use:
+## suppressPackageStartupMessages(library(googleVis))</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>datTL <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Position=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;President&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;Vice&quot;</span>, <span class="dv">3</span>)),</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Name=</span><span class="fu">c</span>(<span class="st">&quot;Washington&quot;</span>, <span class="st">&quot;Adams&quot;</span>, <span class="st">&quot;Jefferson&quot;</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Adams&quot;</span>, <span class="st">&quot;Jefferson&quot;</span>, <span class="st">&quot;Burr&quot;</span>),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">start=</span><span class="fu">as.Date</span>(<span class="at">x=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;1789-03-29&quot;</span>, <span class="st">&quot;1797-02-03&quot;</span>, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">&quot;1801-02-03&quot;</span>),<span class="dv">2</span>)),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">end=</span><span class="fu">as.Date</span>(<span class="at">x=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;1797-02-03&quot;</span>, <span class="st">&quot;1801-02-03&quot;</span>, </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">&quot;1809-02-03&quot;</span>),<span class="dv">2</span>)))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>Timeline <span class="ot">&lt;-</span> <span class="fu">gvisTimeline</span>(<span class="at">data=</span>datTL, </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">rowlabel=</span><span class="st">&quot;Name&quot;</span>,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">barlabel=</span><span class="st">&quot;Position&quot;</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">start=</span><span class="st">&quot;start&quot;</span>, </span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">end=</span><span class="st">&quot;end&quot;</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>                         <span class="at">options=</span><span class="fu">list</span>(<span class="at">timeline=</span><span class="st">&quot;{groupByRowLabel:false}&quot;</span>,</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">backgroundColor=</span><span class="st">&#39;#ffd&#39;</span>, </span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">height=</span><span class="dv">350</span>,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">colors=</span><span class="st">&quot;[&#39;#cbb69d&#39;, &#39;#603913&#39;, &#39;#c69c6e&#39;]&quot;</span>))</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Timeline)</span></code></pre></div>
+<p>install.packages(“vistime”)</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;vistime&quot;</span>)  </span></code></pre></div>
+<pre><code>## Warning: package &#39;vistime&#39; was built under R version 4.0.5</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Position=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;President&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;Vice&quot;</span>, <span class="dv">3</span>)),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">&quot;Washington&quot;</span>, <span class="st">&quot;Adams&quot;</span>, <span class="st">&quot;Jefferson&quot;</span>, <span class="st">&quot;Adams&quot;</span>, <span class="st">&quot;Jefferson&quot;</span>, <span class="st">&quot;Burr&quot;</span>),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">start =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;1789-03-29&quot;</span>, <span class="st">&quot;1797-02-03&quot;</span>, <span class="st">&quot;1801-02-03&quot;</span>), <span class="dv">2</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">end =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;1797-02-03&quot;</span>, <span class="st">&quot;1801-02-03&quot;</span>, <span class="st">&quot;1809-02-03&quot;</span>), <span class="dv">2</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&#39;#cbb69d&#39;</span>, <span class="st">&#39;#603913&#39;</span>, <span class="st">&#39;#c69c6e&#39;</span>),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fontcolor =</span> <span class="fu">rep</span>(<span class="st">&quot;white&quot;</span>, <span class="dv">3</span>))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">vistime</span>(dat, <span class="at">events=</span><span class="st">&quot;Position&quot;</span>, <span class="at">groups=</span><span class="st">&quot;Name&quot;</span>, <span class="at">title=</span><span class="st">&quot;Presidents of the USA&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: &#39;events&#39; is deprecated.
+## Use &#39;col.event&#39; instead.
+## See help(&quot;Deprecated&quot;)</code></pre>
+<pre><code>## Warning: &#39;groups&#39; is deprecated.
+## Use &#39;col.group&#39; instead.
+## See help(&quot;Deprecated&quot;)</code></pre>
+<div id="htmlwidget-d304a2b5534c20874930" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d304a2b5534c20874930">{"x":{"visdat":{"229c1b1356fc":["function () ","plotlyVisDat"]},"cur_data":"229c1b1356fc","attrs":{"229c1b1356fc":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"229c1b1356fc.1":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":["1789-03-29 00:00:00.000000","1797-02-03 00:00:00.000000"],"y":7,"line":{"color":"#cbb69d","width":42.8571428571429},"showlegend":false,"hoverinfo":"text","text":"<b>President<\/b><br>from <b>1789-03-29<\/b> to <b>1797-02-03<\/b>","inherit":true},"229c1b1356fc.2":{"mode":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":"1793-03-02 00:00:00.000000","y":7,"text":"President","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","inherit":true},"229c1b1356fc.3":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":["1789-03-29 00:00:00.000000","1797-02-03 00:00:00.000000"],"y":5,"line":{"color":"#cbb69d","width":42.8571428571429},"showlegend":false,"hoverinfo":"text","text":"<b>Vice<\/b><br>from <b>1789-03-29<\/b> to <b>1797-02-03<\/b>","inherit":true},"229c1b1356fc.4":{"mode":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":"1793-03-02 00:00:00.000000","y":5,"text":"Vice","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","inherit":true},"229c1b1356fc.5":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":["1797-02-03 00:00:00.000000","1801-02-03 00:00:00.000000"],"y":5,"line":{"color":"#603913","width":42.8571428571429},"showlegend":false,"hoverinfo":"text","text":"<b>President<\/b><br>from <b>1797-02-03<\/b> to <b>1801-02-03<\/b>","inherit":true},"229c1b1356fc.6":{"mode":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":"1799-02-03 00:00:00.000000","y":5,"text":"President","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","inherit":true},"229c1b1356fc.7":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":["1797-02-03 00:00:00.000000","1801-02-03 00:00:00.000000"],"y":3,"line":{"color":"#603913","width":42.8571428571429},"showlegend":false,"hoverinfo":"text","text":"<b>Vice<\/b><br>from <b>1797-02-03<\/b> to <b>1801-02-03<\/b>","inherit":true},"229c1b1356fc.8":{"mode":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":"1799-02-03 00:00:00.000000","y":3,"text":"Vice","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","inherit":true},"229c1b1356fc.9":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":["1801-02-03 00:00:00.000000","1809-02-03 00:00:00.000000"],"y":3,"line":{"color":"#c69c6e","width":42.8571428571429},"showlegend":false,"hoverinfo":"text","text":"<b>President<\/b><br>from <b>1801-02-03<\/b> to <b>1809-02-03<\/b>","inherit":true},"229c1b1356fc.10":{"mode":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":"1805-02-03 00:00:00.000000","y":3,"text":"President","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","inherit":true},"229c1b1356fc.11":{"mode":"lines","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":["1801-02-03 00:00:00.000000","1809-02-03 00:00:00.000000"],"y":1,"line":{"color":"#c69c6e","width":42.8571428571429},"showlegend":false,"hoverinfo":"text","text":"<b>Vice<\/b><br>from <b>1801-02-03<\/b> to <b>1809-02-03<\/b>","inherit":true},"229c1b1356fc.12":{"mode":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","x":"1805-02-03 00:00:00.000000","y":1,"text":"Vice","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"hovermode":"closest","plot_bgcolor":"#FCFCFC","title":"Presidents of the USA","shapes":[{"type":"line","x0":0,"x1":1,"xref":"paper","y0":2,"y1":2,"line":{"color":"grey65","width":0.5}},{"type":"line","x0":0,"x1":1,"xref":"paper","y0":4,"y1":4,"line":{"color":"grey65","width":0.5}},{"type":"line","x0":0,"x1":1,"xref":"paper","y0":6,"y1":6,"line":{"color":"grey65","width":0.5}}],"xaxis":{"domain":[0,1],"automargin":true,"linewidth":1,"mirror":true,"showgrid":true,"gridcolor":"grey90","title":""},"yaxis":{"domain":[0,1],"automargin":true,"linewidth":1,"mirror":true,"range":[0,8],"showgrid":false,"title":"","tickmode":"array","tickvals":[7,5,3,1],"ticktext":["Washington","Adams","Jefferson","Burr"]},"showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"mode":"lines","type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"lines","type":"scatter","x":["1789-03-29 00:00:00.000000","1797-02-03 00:00:00.000000"],"y":[7,7],"line":{"color":"#cbb69d","width":42.8571428571429},"showlegend":false,"hoverinfo":["text","text"],"text":["<b>President<\/b><br>from <b>1789-03-29<\/b> to <b>1797-02-03<\/b>","<b>President<\/b><br>from <b>1789-03-29<\/b> to <b>1797-02-03<\/b>"],"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"text","type":"scatter","x":["1793-03-02 00:00:00.000000"],"y":[7],"text":"President","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"lines","type":"scatter","x":["1789-03-29 00:00:00.000000","1797-02-03 00:00:00.000000"],"y":[5,5],"line":{"color":"#cbb69d","width":42.8571428571429},"showlegend":false,"hoverinfo":["text","text"],"text":["<b>Vice<\/b><br>from <b>1789-03-29<\/b> to <b>1797-02-03<\/b>","<b>Vice<\/b><br>from <b>1789-03-29<\/b> to <b>1797-02-03<\/b>"],"marker":{"color":"rgba(214,39,40,1)","line":{"color":"rgba(214,39,40,1)"}},"error_y":{"color":"rgba(214,39,40,1)"},"error_x":{"color":"rgba(214,39,40,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"text","type":"scatter","x":["1793-03-02 00:00:00.000000"],"y":[5],"text":"Vice","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","marker":{"color":"rgba(148,103,189,1)","line":{"color":"rgba(148,103,189,1)"}},"error_y":{"color":"rgba(148,103,189,1)"},"error_x":{"color":"rgba(148,103,189,1)"},"line":{"color":"rgba(148,103,189,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"lines","type":"scatter","x":["1797-02-03 00:00:00.000000","1801-02-03 00:00:00.000000"],"y":[5,5],"line":{"color":"#603913","width":42.8571428571429},"showlegend":false,"hoverinfo":["text","text"],"text":["<b>President<\/b><br>from <b>1797-02-03<\/b> to <b>1801-02-03<\/b>","<b>President<\/b><br>from <b>1797-02-03<\/b> to <b>1801-02-03<\/b>"],"marker":{"color":"rgba(140,86,75,1)","line":{"color":"rgba(140,86,75,1)"}},"error_y":{"color":"rgba(140,86,75,1)"},"error_x":{"color":"rgba(140,86,75,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"text","type":"scatter","x":["1799-02-03 00:00:00.000000"],"y":[5],"text":"President","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","marker":{"color":"rgba(227,119,194,1)","line":{"color":"rgba(227,119,194,1)"}},"error_y":{"color":"rgba(227,119,194,1)"},"error_x":{"color":"rgba(227,119,194,1)"},"line":{"color":"rgba(227,119,194,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"lines","type":"scatter","x":["1797-02-03 00:00:00.000000","1801-02-03 00:00:00.000000"],"y":[3,3],"line":{"color":"#603913","width":42.8571428571429},"showlegend":false,"hoverinfo":["text","text"],"text":["<b>Vice<\/b><br>from <b>1797-02-03<\/b> to <b>1801-02-03<\/b>","<b>Vice<\/b><br>from <b>1797-02-03<\/b> to <b>1801-02-03<\/b>"],"marker":{"color":"rgba(127,127,127,1)","line":{"color":"rgba(127,127,127,1)"}},"error_y":{"color":"rgba(127,127,127,1)"},"error_x":{"color":"rgba(127,127,127,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"text","type":"scatter","x":["1799-02-03 00:00:00.000000"],"y":[3],"text":"Vice","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","marker":{"color":"rgba(188,189,34,1)","line":{"color":"rgba(188,189,34,1)"}},"error_y":{"color":"rgba(188,189,34,1)"},"error_x":{"color":"rgba(188,189,34,1)"},"line":{"color":"rgba(188,189,34,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"lines","type":"scatter","x":["1801-02-03 00:00:00.000000","1809-02-03 00:00:00.000000"],"y":[3,3],"line":{"color":"#c69c6e","width":42.8571428571429},"showlegend":false,"hoverinfo":["text","text"],"text":["<b>President<\/b><br>from <b>1801-02-03<\/b> to <b>1809-02-03<\/b>","<b>President<\/b><br>from <b>1801-02-03<\/b> to <b>1809-02-03<\/b>"],"marker":{"color":"rgba(23,190,207,1)","line":{"color":"rgba(23,190,207,1)"}},"error_y":{"color":"rgba(23,190,207,1)"},"error_x":{"color":"rgba(23,190,207,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"text","type":"scatter","x":["1805-02-03 00:00:00.000000"],"y":[3],"text":"President","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"lines","type":"scatter","x":["1801-02-03 00:00:00.000000","1809-02-03 00:00:00.000000"],"y":[1,1],"line":{"color":"#c69c6e","width":42.8571428571429},"showlegend":false,"hoverinfo":["text","text"],"text":["<b>Vice<\/b><br>from <b>1801-02-03<\/b> to <b>1809-02-03<\/b>","<b>Vice<\/b><br>from <b>1801-02-03<\/b> to <b>1809-02-03<\/b>"],"marker":{"color":"rgba(255,127,14,1)","line":{"color":"rgba(255,127,14,1)"}},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null},{"mode":"text","type":"scatter","x":["1805-02-03 00:00:00.000000"],"y":[1],"text":"Vice","textfont":{"family":"Arial","size":14,"color":"rgba(255,255,255,1)"},"textposition":"center","showlegend":false,"hoverinfo":"none","marker":{"color":"rgba(44,160,44,1)","line":{"color":"rgba(44,160,44,1)"}},"error_y":{"color":"rgba(44,160,44,1)"},"error_x":{"color":"rgba(44,160,44,1)"},"line":{"color":"rgba(44,160,44,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<hr />
+</div>
+</div>
+</div>
+<div id="diagrammi-di-venn" class="section level1">
+<h1>DIAGRAMMI DI VENN</h1>
+<div id="diagrammi-di-reed-kellogg" class="section level2">
+<h2>Diagrammi di Reed-Kellogg</h2>
+<p><strong><a href="https://www.datanovia.com/en/blog/venn-diagram-with-r-or-rstudio-a-million-ways/" class="uri">https://www.datanovia.com/en/blog/venn-diagram-with-r-or-rstudio-a-million-ways/</a></strong></p>
+<p><img src="https://www.datanovia.com/en/wp-content/uploads/2020/11/venn-diagram-in-r-or-rstudio-ggvenn-1.png" /></p>
+<p><img src="https://www.datanovia.com/en/wp-content/uploads/dn-tutorials/r-tutorial/figures/venn-diagram-in-r-or-rstudio-ggVennDiagram-1.png" /></p>
+<p><a href="https://statisticsglobe.com/ggvenn-r-package"></a></p>
+<p><img src="https://statisticsglobe.com/wp-content/uploads/2021/01/figure-2-plot-ggvenn-r-package-programming-language.png" /></p>
+<p><strong><a href="https://www.r-graph-gallery.com/14-venn-diagramm.html" class="uri">https://www.r-graph-gallery.com/14-venn-diagramm.html</a></strong></p>
+<p><img src="https://www.r-graph-gallery.com/img/graph/14-venn-diagramm2.png" /></p>
+<p><img src="https://www.r-graph-gallery.com/img/graph/14-venn-diagramm3.png" /></p>
+<hr />
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

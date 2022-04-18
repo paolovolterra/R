@@ -6,5 +6,5 @@
 
 ![](https://finnstats.com/wp-content/uploads/2021/04/Authority.png)
 
-![](https://finnstats.com/wp-content/uploads/2021/04/Social-Network-Analysis-in-R.png)
+![Community Detection](https://finnstats.com/wp-content/uploads/2021/04/Social-Network-Analysis-in-R.png)
 

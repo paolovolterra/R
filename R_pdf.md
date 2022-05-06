@@ -2,7 +2,7 @@
 title: "Elaborare PDF"
 ---
 
-# Tabulizer
+# [tabulizer](https://www.r-bloggers.com/2019/09/pdf-scraping-in-r-with-tabulizer/)
 
 fornisce collegamenti R alla libreria Java Tabula , che può essere utilizzata per estrarre computazionalmente tabelle da documenti PDF. La funzione principale extract_tables()imita il comportamento della riga di comando della Tabula, estraendo tutte le tabelle da un file PDF e, per impostazione predefinita, restituisce quelle tabelle come un elenco di matrici di caratteri in R. 
 
@@ -84,7 +84,7 @@ mydf <- as.data.frame(mydata)
 
 ---
 
-https://www.r-bloggers.com/2019/09/pdf-scraping-in-r-with-tabulizer/
+
 
     ```
     library("tabulizer")
@@ -121,8 +121,14 @@ https://www.r-bloggers.com/2019/09/pdf-scraping-in-r-with-tabulizer/
     area
     View(area)
     ```
+-----------------------------------------------------------------------------------------------------------------------
+# siti interessanti
+* https://www.business-science.io/finance/2020/02/21/tidy-discounted-cash-flow.html
+* 
 
 #############
+
+# [Tesseract]()
     ```
     library(tesseract) #https://github.com/tesseract-ocr/tessdoc
     tesseract_download("ita")
@@ -183,6 +189,8 @@ https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html#read_from
 
 
 #######
+
+# [pdftools]()
 
 library(pdftools)
  https://ropensci.org/blog/2016/03/01/pdftools-and-jeroen/

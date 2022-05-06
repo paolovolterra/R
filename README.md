@@ -18,6 +18,7 @@ https://www.business-science.io/finance/2020/02/26/r-for-excel-users.html#
 ----------------------------------------------------------------------------------------------------------------------------
 
 # EXCEL
+![](https://www.business-science.io/assets/2020-02-26-r-for-excel/r-for-excel-users.jpg)
 
 ## [tidyxl](https://nacnudus.github.io/tidyxl/)
 tidyxl imports non-tabular data from Excel files into R. It exposes cell content, position, formatting and comments in a tidy structure for further manipulation, especially by the unpivotr package. It supports the xml-based file formats ‘.xlsx’ and ‘.xlsm’ via the embedded RapidXML C++ library. It does not support the binary file formats ‘.xlsb’ or ‘.xls’.

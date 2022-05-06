@@ -5,20 +5,8 @@ Se meritevoli, approfondisco gli argomenti in appositi files
 ![Immagine](https://technosoups.com/wp-content/uploads/2021/03/R-programming-language.jpg)
 
 
-library(tidyquant)
-library(DT)
-library(FinCal) 
-
-
-https://www.codingfinance.com/post/2018-03-23-car-payment/
-
-https://www.business-science.io/finance/2020/02/26/r-for-excel-users.html#
-
-
-----------------------------------------------------------------------------------------------------------------------------
-
 # [Excel](https://github.com/paolovolterra/R/blob/main/R_excel.md#excel)
-----------------------------------------------------------------------------------------------------------------------------
+
 
 # Fuzzy
 
@@ -30,12 +18,11 @@ The fuzzyjoin package is a variation on dplyr's join operations that allows matc
 * [esempio 1](https://www.business-science.io/finance/2020/02/21/tidy-discounted-cash-flow.html)
 
 
-----------------------------------------------------------------------------------------------------------------------------
 
 # [Marketing](https://github.com/paolovolterra/R/blob/main/marketing.md#new-cheat-sheet---customer-segmentation-and-clustering-workflow)
 
+# [matematica finanziaria](https://github.com/paolovolterra/MatematicaFinanziaria/blob/main/MF_R.md#matematica-finanziaria-con-r)
 
-----------------------------------------------------------------------------------------------------------------------------
 
 # Scraping
 

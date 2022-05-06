@@ -67,6 +67,11 @@ The fuzzyjoin package is a variation on dplyr's join operations that allows matc
 
 ----------------------------------------------------------------------------------------------------------------------------
 
+# [Marketing](https://github.com/paolovolterra/R/blob/main/marketing.md#new-cheat-sheet---customer-segmentation-and-clustering-workflow)
+
+
+----------------------------------------------------------------------------------------------------------------------------
+
 # Scraping
 
 ## [rvest](https://rvest.tidyverse.org/)

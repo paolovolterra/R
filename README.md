@@ -15,12 +15,7 @@ https://www.codingfinance.com/post/2018-03-23-car-payment/
 https://www.business-science.io/finance/2020/02/26/r-for-excel-users.html#
 
 
-
-# Fuzzy
-
-## [fuzzyjoin: Join data frames on inexact matching](https://github.com/dgrtwo/fuzzyjoin)  
-The fuzzyjoin package is a variation on dplyr's join operations that allows matching not just on values that match between columns, but on inexact matching. This allows matching on:
-
+----------------------------------------------------------------------------------------------------------------------------
 
 # EXCEL
 
@@ -33,6 +28,19 @@ It also provides a function xlex() for tokenizing formulas. See the vignette for
 
 ### [Spreadsheet Munging Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies/)
 
+----------------------------------------------------------------------------------------------------------------------------
+
+# Fuzzy
+
+## [fuzzyjoin: Join data frames on inexact matching](https://github.com/dgrtwo/fuzzyjoin)  
+The fuzzyjoin package is a variation on dplyr's join operations that allows matching not just on values that match between columns, but on inexact matching. This allows matching on:
+
+# environment
+
+* [esempio 1](https://www.business-science.io/finance/2020/02/21/tidy-discounted-cash-flow.html)
+
+
+----------------------------------------------------------------------------------------------------------------------------
 
 # Scraping
 

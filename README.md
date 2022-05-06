@@ -38,3 +38,6 @@ It also provides a function xlex() for tokenizing formulas. See the vignette for
 
 ## [rvest](https://rvest.tidyverse.org/)
 ![](https://rvest.tidyverse.org/logo.png)
+rvest helps you scrape (or harvest) data from web pages. It is designed to work with magrittr to make it easy to express common web scraping tasks, inspired by libraries like beautiful soup and RoboBrowser.
+
+If you’re scraping multiple pages, I highly recommend using rvest in concert with polite. The polite package ensures that you’re respecting the robots.txt and not hammering the site with too many requests.

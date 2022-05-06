@@ -29,6 +29,16 @@ It also provides a function xlex() for tokenizing formulas. See the vignette for
 
 ### [Spreadsheet Munging Strategies](https://nacnudus.github.io/spreadsheet-munging-strategies/)
 
+✅ Pivot Tables in R
+
+✅ VLOOKUP in R
+
+✅ Summarizing “IFS” Functions
+
+✅ 100 + New Excel Functions
+
+✅ NEW API Integrations (Implementation scheduled for March)
+
 ----------------------------------------------------------------------------------------------------------------------------
 
 # Fuzzy

@@ -17,7 +17,7 @@ https://www.business-science.io/finance/2020/02/26/r-for-excel-users.html#
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-# EXCEL
+# [EXCEL](https://www.business-science.io/finance/2020/02/26/r-for-excel-users.html)
 ![](https://www.business-science.io/assets/2020-02-26-r-for-excel/r-for-excel-users.jpg)
 
 ## [tidyxl](https://nacnudus.github.io/tidyxl/)

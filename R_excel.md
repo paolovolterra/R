@@ -21,8 +21,14 @@ It also provides a function xlex() for tokenizing formulas. See the vignette for
 ![](https://www.business-science.io/assets/2020-02-26-r-for-excel/excel_vlookup_process.jpg)
 ![](https://www.business-science.io/assets/2020-02-26-r-for-excel/excel_sumifs.jpg)
 ![](https://www.business-science.io/assets/2020-02-26-r-for-excel/excel_function_integrations.jpg)
-![]()
-![]()
+
+# Readxl
+![](https://miro.medium.com/max/700/1*2GobF1ExuQnqlvK-chblRg.png)
+
+# [Bert](https://medium.com/appsilon-data-science/r-and-excel-how-to-combine-the-best-of-both-worlds-ad64300cb8fa)
+progettato per eseguire funzioni R (definite dall'utente) nei fogli di calcolo
+![](https://miro.medium.com/max/700/1*4uwzCn9D23lamHD4wxLtrA.gif)
+![](https://miro.medium.com/max/700/1*42u_FUS8GCNHA5WtjTeGjw.png)
 ![]()
 
 
